@@ -53,7 +53,7 @@ function PackageNotFound() {
 
 function PackageDetail() {
   const { pkg } = Route.useLoaderData();
-  const wa = whatsappLink(interestMessage(`${pkg.title} package`));
+  const wa = whatsappLink(interestMessage(`${pkg.title} (${pkg.destination})`));
 
   return (
     <>
@@ -63,9 +63,11 @@ function PackageDetail() {
         image={pkg.image}
         crumbs={[{ label: "Tour Packages", to: "/packages" }, { label: pkg.title }]}
       >
-        <span className="inline-flex items-center gap-2 rounded-md bg-primary-foreground/10 px-3 py-2 text-sm">
-          <CalendarDays className="h-4 w-4" aria-hidden="true" /> {pkg.duration}
-        </span>
+        {pkg.duration && (
+          <span className="inline-flex items-center gap-2 rounded-md bg-primary-foreground/10 px-3 py-2 text-sm">
+            <CalendarDays className="h-4 w-4" aria-hidden="true" /> {pkg.duration}
+          </span>
+        )}
         <span className="inline-flex items-center gap-2 rounded-md bg-primary-foreground/10 px-3 py-2 text-sm">
           <MapPin className="h-4 w-4" aria-hidden="true" /> {pkg.destination}
         </span>
@@ -77,13 +79,7 @@ function PackageDetail() {
       <section className="section">
         <div className="container-page grid gap-12 lg:grid-cols-[1.3fr_1fr]">
           <div>
-            {pkg.draft && (
-              <p className="mb-6 flex items-start gap-2 rounded-lg border border-dashed border-border bg-muted/60 p-4 text-sm text-muted-foreground">
-                <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                Sample itinerary structure. Day-by-day details and pricing are placeholders until the final
-                itinerary is confirmed — edit them in <code>src/data/packages.ts</code>.
-              </p>
-            )}
+
 
             <h2 className="text-2xl text-primary">Overview</h2>
             <p className="mt-3 text-base leading-relaxed text-muted-foreground">{pkg.summary}</p>
@@ -107,16 +103,20 @@ function PackageDetail() {
               ))}
             </ul>
 
-            <h3 className="mt-10 text-xl text-primary">Day-by-day itinerary</h3>
-            <ol className="mt-4 space-y-4">
-              {pkg.itinerary.map((day) => (
-                <li key={day.day} className="rounded-xl border border-border bg-card p-5 shadow-card">
-                  <p className="text-xs font-bold uppercase tracking-wider text-secondary">{day.day}</p>
-                  <p className="mt-1 text-base font-semibold text-primary">{day.title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{day.detail}</p>
-                </li>
-              ))}
-            </ol>
+            {pkg.itinerary.length > 0 && (
+              <>
+                <h3 className="mt-10 text-xl text-primary">Day-by-day itinerary</h3>
+                <ol className="mt-4 space-y-4">
+                  {pkg.itinerary.map((day) => (
+                    <li key={day.day} className="rounded-xl border border-border bg-card p-5 shadow-card">
+                      <p className="text-xs font-bold uppercase tracking-wider text-secondary">{day.day}</p>
+                      <p className="mt-1 text-base font-semibold text-primary">{day.title}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{day.detail}</p>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )}
 
             <div className="mt-10 grid gap-6 sm:grid-cols-2">
               <div>
@@ -130,28 +130,34 @@ function PackageDetail() {
                   ))}
                 </ul>
               </div>
-              <div>
-                <h3 className="text-xl text-primary">Exclusions</h3>
+              {pkg.exclusions.length > 0 && (
+                <div>
+                  <h3 className="text-xl text-primary">Exclusions</h3>
+                  <ul className="mt-3 space-y-2">
+                    {pkg.exclusions.map((i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-foreground/85">
+                        <X className="mt-0.5 h-4 w-4 shrink-0 text-destructive" aria-hidden="true" />
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {pkg.importantInfo.length > 0 && (
+              <>
+                <h3 className="mt-10 text-xl text-primary">Important information</h3>
                 <ul className="mt-3 space-y-2">
-                  {pkg.exclusions.map((i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-foreground/85">
-                      <X className="mt-0.5 h-4 w-4 shrink-0 text-destructive" aria-hidden="true" />
+                  {pkg.importantInfo.map((i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <Info className="mt-0.5 h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
                       {i}
                     </li>
                   ))}
                 </ul>
-              </div>
-            </div>
-
-            <h3 className="mt-10 text-xl text-primary">Important information</h3>
-            <ul className="mt-3 space-y-2">
-              {pkg.importantInfo.map((i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <Info className="mt-0.5 h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
-                  {i}
-                </li>
-              ))}
-            </ul>
+              </>
+            )}
           </div>
 
           <aside className="lg:sticky lg:top-24 lg:self-start">

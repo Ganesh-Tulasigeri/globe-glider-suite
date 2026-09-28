@@ -59,7 +59,7 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
     const next: Errors = {};
     if (form.name.trim().length < 2) next.name = "Please enter your name.";
     if (!form.phone.trim()) next.phone = "Please enter your phone number.";
-    else if (!isValidPhone(form.phone)) next.phone = "Enter a valid phone number (7-15 digits).";
+    else if (!isValidPhone(form.phone)) next.phone = "Please enter a valid 10-digit phone number.";
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       next.email = "Enter a valid email address.";
     if (form.people && Number(form.people) <= 0) next.people = "Enter a number greater than zero.";

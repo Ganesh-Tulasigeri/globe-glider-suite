@@ -66,11 +66,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
           <ButtonLink to="/enquiry" search={{ interest: vehicle.name }} variant="primary" size="sm">
             Enquire Now
           </ButtonLink>
-          {wa && (
-            <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="outline" size="sm">
-              <MessageCircle className="h-4 w-4" aria-hidden="true" /> WhatsApp
-            </ButtonAnchor>
-          )}
+
         </div>
       </div>
     </article>

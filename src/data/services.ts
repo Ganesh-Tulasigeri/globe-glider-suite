@@ -6,6 +6,8 @@ import vehicleVan from "@/assets/vehicle-van.jpg";
 import vehicleCoach from "@/assets/vehicle-coach.jpg";
 import airportImage from "@/assets/airport.jpg";
 import corporateImage from "@/assets/corporate.webp";
+import tourpackImage from "@/assets/tourpack.jpg";
+import vehicleRentalImage from "@/assets/vehiclerental.png";
 
 export interface Service {
   slug: string;
@@ -25,27 +27,7 @@ export interface Service {
  * before publishing, and delete any service that is not actually provided.
  */
 export const services: Service[] = [
-  {
-    slug: "airport-transfers",
-    title: "Airport Transfers",
-    summary:
-      "Punctual pickups and drops with flight tracking, meet-and-greet and fixed, agreed-upon fares.",
-    intro:
-      "Door-to-terminal and terminal-to-door transfers for early departures and late arrivals. The vehicle and driver are assigned in advance, and the fare is confirmed before the trip so there are no surprises at the end of the ride.",
-    image: airportImage,
-    benefits: [
-      "Pickup time planned around your flight schedule",
-      "Driver contact details shared before the journey",
-      "Luggage-appropriate vehicle suggested at booking",
-      "Fare confirmed in writing before travel",
-    ],
-    process: [
-      { step: "Share your flight details", detail: "Send the date, time, terminal and passenger count." },
-      { step: "Receive a quote", detail: "We confirm the vehicle and the total fare." },
-      { step: "Get driver details", detail: "Name and number are shared ahead of pickup." },
-      { step: "Travel", detail: "The driver waits at the agreed point and tracks delays." },
-    ],
-  },
+
   {
     slug: "local-sightseeing",
     title: "Local Sightseeing",
@@ -112,23 +94,63 @@ export const services: Service[] = [
     summary: "Ready-made and fully custom multi-day itineraries with transport and planning included.",
     intro:
       "Curated routes for popular destinations plus completely custom itineraries built around your dates, pace and budget. Every package can be shortened, extended or reshaped.",
-    image: destBackwaters,
+    image: tourpackImage,
     benefits: [
-      "Ready itineraries you can adjust",
-      "Fully custom trips planned from scratch",
-      "Transport included throughout",
-      "Assistance available during the trip",
+      "Udupi Tour Packages",
+      "Kollur Tour Packages",
+      "Murudeshwara Tour Packages",
+      "Gokarna Tour Packages",
+      "Goa Tour Packages",
+      "Sringeri Tour Packages",
+      "Horanadu Tour Packages",
+      "Darmasthala Tour Packages",
+      "Kukke Subramanya Tour Packages",
+      "Mantralayam Tour Packages",
+      "Tirupathi Tour Packages",
+      "Kanyakumari Tour Packages",
+      "Rameshwaram Tour Packages",
+      "Coorg Tour Packages",
+      "Chikamagaluru Tour Packages",
+      "Mysore Tour Packages",
+      "Ooty Tour Packages",
+      "Wayanad Tour Packages",
+      "Kodiakanal Tour Packages",
+      "Munnar Tour Packages",
+      "Thekady Tour Packages",
+      "Valparai Tour Packages",
+      "Alleppy Tour Packages",
     ],
     process: [
       { step: "Pick a package or idea", detail: "Start from a listed package or describe your plan." },
-      { step: "Get a day-by-day plan", detail: "We share an itinerary with timings and stops." },
+      { step: "Get a day-by-date plan", detail: "We share an itinerary with timings and stops." },
       { step: "Refine it", detail: "Swap days, add nights or change the pace." },
       { step: "Confirm and travel", detail: "Final costing is shared before departure." },
     ],
   },
   {
+    slug: "airport-transfers",
+    title: "Airport Transfers",
+    summary:
+      "Punctual pickups and drops with flight tracking, meet-and-greet and fixed, agreed-upon fares.",
+    intro:
+      "Door-to-terminal and terminal-to-door transfers for early departures and late arrivals. The vehicle and driver are assigned in advance, and the fare is confirmed before the trip so there are no surprises at the end of the ride.",
+    image: airportImage,
+    benefits: [
+      "Pickup time planned around your flight schedule",
+      "Driver contact details shared before the journey",
+      "Luggage-appropriate vehicle suggested at booking",
+      "Fare confirmed in writing before travel",
+    ],
+    process: [
+      { step: "Share your flight details", detail: "Send the date, time, terminal and passenger count." },
+      { step: "Receive a quote", detail: "We confirm the vehicle and the total fare." },
+      { step: "Get driver details", detail: "Name and number are shared ahead of pickup." },
+      { step: "Travel", detail: "The driver waits at the agreed point and tracks delays." },
+    ],
+  },
+  {
     slug: "group-and-family-trips",
-    title: "Group & Family Trips",
+    title: "Family & Group Trips",
     summary: "Vans and coaches for family holidays, school trips, weddings and pilgrimages.",
     intro:
       "Larger vehicles and multi-vehicle convoys for groups travelling together, with coordination between drivers so everyone arrives at the same time.",
@@ -152,7 +174,7 @@ export const services: Service[] = [
     summary: "Hourly, daily and monthly chauffeur-driven rentals across our fleet.",
     intro:
       "Hire a vehicle with a driver for as long as you need it — a few hours in the city, a full day of meetings, or a monthly arrangement for ongoing travel.",
-    image: vehicleVan,
+    image: vehicleRentalImage,
     benefits: [
       "Hourly, daily and monthly options",
       "Choice of sedans, MPVs, vans and coaches",

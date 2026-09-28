@@ -5,7 +5,7 @@ import type { TourPackage } from "@/data/packages";
 import { interestMessage, whatsappLink } from "@/lib/contact";
 
 export function PackageCard({ pkg }: { pkg: TourPackage }) {
-  const wa = whatsappLink(interestMessage(`${pkg.title} package`));
+  const wa = whatsappLink(interestMessage(`${pkg.title} (${pkg.destination})`));
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
@@ -18,9 +18,11 @@ export function PackageCard({ pkg }: { pkg: TourPackage }) {
           height={750}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <span className="absolute left-3 top-3 rounded-md bg-accent px-2.5 py-1 text-xs font-bold text-accent-foreground">
-          {pkg.duration}
-        </span>
+        {pkg.duration && (
+          <span className="absolute left-3 top-3 rounded-md bg-accent px-2.5 py-1 text-xs font-bold text-accent-foreground">
+            {pkg.duration}
+          </span>
+        )}
       </div>
       <div className="flex flex-1 flex-col p-5">
         <h3 className="text-lg text-primary">
@@ -35,7 +37,7 @@ export function PackageCard({ pkg }: { pkg: TourPackage }) {
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pkg.summary}</p>
 
         <ul className="mt-4 flex flex-wrap items-start content-start gap-2">
-          {pkg.highlights.slice(0, 3).map((h) => (
+          {pkg.highlights.slice(0, 4).map((h) => (
             <li
               key={h}
               className="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary"

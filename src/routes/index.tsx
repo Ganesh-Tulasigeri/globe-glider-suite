@@ -8,7 +8,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import heroRoad from "@/assets/hero-road.jpg";
-import aboutTeam from "@/assets/about-team.jpg";
+
 import { ButtonAnchor, ButtonLink } from "@/components/common/Button";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CTASection } from "@/components/common/CTASection";
@@ -89,41 +89,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Intro */}
-      <section className="section">
-        <div className="container-page grid items-center gap-10 lg:grid-cols-2">
-          <div className="overflow-hidden rounded-2xl shadow-card">
-            <img
-              src={aboutTeam}
-              alt="Chauffeur standing beside a clean sedan ready for a pickup"
-              loading="lazy"
-              width={1200}
-              height={912}
-              className="h-full w-full object-cover"
-            />
-          </div>
-          <div>
-            <SectionHeading
-              eyebrow="About us"
-              title="A travel partner, not just a ride"
-              description="We arrange transport and itineraries for travellers, families and businesses — from a single airport pickup to a multi-day tour. Every trip is quoted clearly and handled by one point of contact."
-            />
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {["Chauffeur-driven fleet", "Custom itineraries", "Airport & outstation travel", "Corporate accounts"].map(
-                (item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm text-foreground/85">
-                    <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-secondary" aria-hidden="true" />
-                    {item}
-                  </li>
-                ),
-              )}
-            </ul>
-            <ButtonLink to="/about" variant="primary" size="md" className="mt-7">
-              Read More
-            </ButtonLink>
-          </div>
-        </div>
-      </section>
+
 
       {/* Services */}
       <section className="section bg-surface">
@@ -178,9 +144,39 @@ function Home() {
             align="center"
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {packages.map((pkg) => (
+            {packages.slice(0, 4).map((pkg) => (
               <PackageCard key={pkg.slug} pkg={pkg} />
             ))}
+          </div>
+          
+          <h3 className="mt-16 mb-6 text-center text-2xl font-bold text-primary sm:text-3xl">
+            Hill Station Tour Packages
+          </h3>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {packages.slice(13, 17).map((pkg) => (
+              <PackageCard key={pkg.slug} pkg={pkg} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About us */}
+      <section className="section bg-surface">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="About us"
+            title="Who we are"
+            description="Lifetime Travels offers reliable transport and custom itineraries, connecting you to unforgettable destinations."
+            align="center"
+          />
+          <div className="mt-8 flex flex-col items-center">
+            <p className="max-w-2xl text-center text-base text-muted-foreground">
+              We combine a professional chauffeur‑driven fleet with expertly crafted itineraries, ensuring every journey is comfortable, safe, and memorable.
+            </p>
+            <ButtonLink to="/about" variant="primary" size="md" className="mt-6">
+              Learn more
+            </ButtonLink>
           </div>
         </div>
       </section>

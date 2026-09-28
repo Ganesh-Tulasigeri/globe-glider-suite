@@ -48,9 +48,9 @@ export const siteConfig: SiteConfig = {
   description:
     "A travel and tourism service offering chauffeur-driven vehicles, airport transfers, sightseeing trips and custom tour packages.",
   logoUrl: "",
-  phone: "+91 98765 43210",
-  phoneDisplay: "+91 98765 43210",
-  whatsappNumber: "919876543210",
+  phone: "+91 6362720199",
+  phoneDisplay: "+91 6362720199",
+  whatsappNumber: "918861173259",
   email: "",
   address: "",
   businessHours: "",
@@ -66,10 +66,10 @@ export const siteConfig: SiteConfig = {
 
 export const navLinks = [
   { label: "Home", to: "/" },
-  { label: "About", to: "/about" },
   { label: "Services", to: "/services" },
   { label: "Car Rental", to: "/vehicles" },
   { label: "Tour Packages", to: "/packages" },
+  { label: "About", to: "/about" },
   { label: "Gallery", to: "/gallery" },
   { label: "Reviews", to: "/reviews" },
   { label: "Contact", to: "/contact" },

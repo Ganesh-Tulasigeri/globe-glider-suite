@@ -2,6 +2,11 @@ import sedan from "@/assets/vehicle-sedan.jpg";
 import suv from "@/assets/vehicle-suv.jpg";
 import van from "@/assets/vehicle-van.jpg";
 import coach from "@/assets/vehicle-coach.jpg";
+import bus from "@/assets/bus.jpg";
+import swiftDzire from "@/assets/vehicle-swift-dzire.jpg";
+import ertiga from "@/assets/vehicle-ertiga.jpg";
+import urbania from "@/assets/vehicle-urbania.jpg";
+import miniBus from "@/assets/vehicle-mini-bus.jpg";
 
 export interface Vehicle {
   id: string;
@@ -28,7 +33,7 @@ export interface Vehicle {
 export const vehicles: Vehicle[] = [
   {
     id: "sedan",
-    name: "Sedan",
+    name: "Etios",
     type: "Compact car",
     image: sedan,
     seats: 4,
@@ -39,7 +44,7 @@ export const vehicles: Vehicle[] = [
   },
   {
     id: "mpv",
-    name: "MPV / SUV",
+    name: "Innova Crysta",
     type: "7-seater",
     image: suv,
     seats: 6,
@@ -61,13 +66,57 @@ export const vehicles: Vehicle[] = [
   },
   {
     id: "coach",
-    name: "Tourist Coach",
+    name: "Bus",
     type: "Large bus",
-    image: coach,
+    image: bus,
     seats: 35,
     luggage: "Under-floor luggage hold",
     airConditioning: "AC",
     features: ["Large groups", "Pilgrimage and school trips", "Onboard luggage hold"],
+    price: "",
+  },
+  {
+    id: "swift-dzire",
+    name: "Swift Dzire",
+    type: "Compact sedan",
+    image: swiftDzire,
+    seats: 4,
+    luggage: "2 large bags",
+    airConditioning: "AC",
+    features: ["Fuel efficient", "City rides"],
+    price: "",
+  },
+  {
+    id: "ertiga",
+    name: "Ertiga",
+    type: "Compact MPV",
+    image: ertiga,
+    seats: 6,
+    luggage: "3 large bags",
+    airConditioning: "AC",
+    features: ["Spacious", "Family friendly"],
+    price: "",
+  },
+  {
+    id: "urbania",
+    name: "Urbania",
+    type: "Van",
+    image: urbania,
+    seats: 8,
+    luggage: "4 large bags",
+    airConditioning: "AC",
+    features: ["Comfortable for groups"],
+    price: "",
+  },
+  {
+    id: "mini-bus",
+    name: "Mini Bus",
+    type: "Mini bus",
+    image: miniBus,
+    seats: 12,
+    luggage: "Rear luggage space",
+    airConditioning: "AC",
+    features: ["Group travel", "Long-distance"],
     price: "",
   },
 ];

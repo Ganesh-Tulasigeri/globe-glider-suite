@@ -31,8 +31,8 @@ export function mailtoLink(subject?: string): string | null {
 export const interestMessage = (item: string) =>
   `Hello ${siteConfig.name}, I am interested in the ${item}. Please provide more details.`;
 
-/** Indian-friendly but generic phone validation: 7-15 digits, optional +. */
+/** Strict 10-digit phone validation. */
 export function isValidPhone(value: string): boolean {
   const digits = value.replace(/[^\d]/g, "");
-  return /^\+?[\d\s()-]+$/.test(value) && digits.length >= 7 && digits.length <= 15;
+  return /^\+?[\d\s()-]+$/.test(value) && digits.length === 10;
 }

@@ -134,25 +134,7 @@ function ContactPage() {
               </div>
             )}
 
-            <div className="mt-10">
-              <h2 className="text-lg">Find us</h2>
-              {siteConfig.mapEmbedUrl ? (
-                <div className="mt-4 overflow-hidden rounded-xl border border-border">
-                  <iframe
-                    src={siteConfig.mapEmbedUrl}
-                    title={`Map showing the location of ${siteConfig.name}`}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="h-64 w-full border-0"
-                  />
-                </div>
-              ) : (
-                <p className="mt-4 rounded-xl border border-dashed border-border bg-muted/60 p-5 text-sm text-muted-foreground">
-                  A map will appear here once a Google Maps embed link is added to{" "}
-                  <code>src/config/site.ts</code>.
-                </p>
-              )}
-            </div>
+
           </div>
 
           <div id="enquiry-form">
