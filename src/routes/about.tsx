@@ -6,6 +6,7 @@ import { PageHero } from "@/components/common/PageHero";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CTASection } from "@/components/common/CTASection";
 import { siteConfig } from "@/config/site";
+import Counter from '@/components/ui/Counter';
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -113,22 +114,22 @@ function About() {
         <div className="container-page">
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 text-center">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-4xl font-bold text-secondary">15+</span>
+              <Counter target={15} className="text-4xl font-bold text-secondary" />
               <span className="text-sm font-medium text-foreground">Years of Excellence</span>
               <span className="text-xs text-muted-foreground">Serving travellers since 2009</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-4xl font-bold text-secondary">25+</span>
+              <Counter target={25} className="text-4xl font-bold text-secondary" />
               <span className="text-sm font-medium text-foreground">Premium Vehicles</span>
               <span className="text-xs text-muted-foreground">Sedans, SUVs, vans & buses</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-4xl font-bold text-secondary">1000+</span>
+              <Counter target={1000} className="text-4xl font-bold text-secondary" />
               <span className="text-sm font-medium text-foreground">Happy Customers</span>
               <span className="text-xs text-muted-foreground">Families, corporates & pilgrims</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-4xl font-bold text-secondary">50+</span>
+              <Counter target={50} className="text-4xl font-bold text-secondary" />
               <span className="text-sm font-medium text-foreground">Destinations Covered</span>
               <span className="text-xs text-muted-foreground">Across India, every season</span>
             </div>

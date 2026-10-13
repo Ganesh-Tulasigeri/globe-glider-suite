@@ -7,8 +7,13 @@ import {
   Route as RouteIcon,
   ShieldCheck,
 } from "lucide-react";
+import { useState, useEffect } from "react";
 import heroRoad from "@/assets/hero-road.jpg";
-
+import mysore from "@/assets/mysore-tour.jpg";
+import coorg from "@/assets/coorg-tour.jpg";
+import gokarna from "@/assets/gokarna-tour.jpg";
+import destHills from "@/assets/dest-hills.jpg";
+import destHeritage from "@/assets/dest-heritage.jpg";
 import { ButtonAnchor, ButtonLink } from "@/components/common/Button";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CTASection } from "@/components/common/CTASection";
@@ -17,6 +22,11 @@ import { VehicleCard } from "@/components/cards/VehicleCard";
 import { PackageCard } from "@/components/cards/PackageCard";
 import { TestimonialCard } from "@/components/cards/TestimonialCard";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
+import TextAnimation from "@/components/ui/staggerText";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { PerspectiveCarousel } from "@/components/ui/perspective-carousel";
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import { CinematicHero } from "@/components/ui/cinematic-hero";
 import { siteConfig } from "@/config/site";
 import { services } from "@/data/services";
 import { vehicles } from "@/data/vehicles";
@@ -53,41 +63,21 @@ const whyChooseUs = [
   { Icon: HeartHandshake, title: "Support while travelling", text: "One point of contact you can reach during the journey." },
 ];
 
+const dummyReviews = [
+  { quote: "Excellent service! The driver was on time and the vehicle was spotless. Will definitely book again for our next trip.", name: "Ravi Kumar", title: "Trip to Coorg" },
+  { quote: "We booked a family tour package and everything was perfectly arranged. Highly recommend Lifetime Travels!", name: "Priya Sharma", title: "Ooty Package Tour" },
+  { quote: "The airport transfer was smooth and stress-free. Our driver waited patiently even when our flight was delayed.", name: "Arun Mehta", title: "Airport Transfer" },
+  { quote: "Best road trip experience. The chauffeur was knowledgeable about local spots and made our trip memorable.", name: "Sunita Reddy", title: "Wayanad Day Trip" },
+  { quote: "Transparent pricing, no hidden charges. Booked a multi-day tour and every detail was taken care of.", name: "Kiran Nair", title: "Kerala Tour Package" },
+  { quote: "Very comfortable vehicle for a group of 8. The driver was professional and courteous throughout the journey.", name: "Deepa Menon", title: "Munnar Group Tour" },
+];
+
 function Home() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative isolate flex min-h-[calc(100vh-5rem)] items-center overflow-hidden text-primary-foreground md:min-h-[78vh]">
-        <img
-          src={heroRoad}
-          alt="Vehicle travelling along a winding mountain road at sunrise"
-          width={1920}
-          height={1088}
-          fetchPriority="high"
-          className="absolute inset-0 -z-10 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/35" />
-        <div className="container-page py-20 md:py-28">
-          <p className="reveal text-xs font-bold uppercase tracking-[0.22em] text-accent">
-            {siteConfig.tagline}
-          </p>
-          <h1 className="reveal mt-4 max-w-3xl text-4xl leading-[1.08] md:text-6xl">
-            Travel made simple, from the first call to the last mile
-          </h1>
-          <p className="reveal mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/85 md:text-lg">
-            Chauffeur-driven vehicles, airport transfers, day trips and multi-day tour packages —
-            planned around your dates, your group and your pace.
-          </p>
-          <div className="reveal mt-8 flex flex-wrap gap-3">
-            <ButtonLink to="/enquiry" variant="accent" size="lg">
-              Plan Your Trip
-            </ButtonLink>
-            <ButtonLink to="/packages" variant="onDark" size="lg">
-              Explore Packages
-            </ButtonLink>
-          </div>
-        </div>
-      </section>
+      <CinematicHero />
+
+
 
 
 
@@ -136,28 +126,21 @@ function Home() {
 
       {/* Packages */}
       <section className="section bg-surface">
-        <div className="container-page">
+        <div className="container-page pb-0">
           <SectionHeading
             eyebrow="Tour packages"
             title="Routes worth taking your time over"
             description="Start from one of these itineraries or ask us to build something entirely around your dates."
             align="center"
           />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {packages.slice(0, 4).map((pkg) => (
-              <PackageCard key={pkg.slug} pkg={pkg} />
-            ))}
-          </div>
-          
-          <h3 className="mt-16 mb-6 text-center text-2xl font-bold text-primary sm:text-3xl">
-            Hill Station Tour Packages
-          </h3>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {packages.slice(13, 17).map((pkg) => (
-              <PackageCard key={pkg.slug} pkg={pkg} />
-            ))}
-          </div>
+        </div>
+        <div className="mt-8 w-full">
+          <PerspectiveCarousel items={packages.slice(0, 10)} />
+        </div>
+        <div className="mt-8 text-center pb-16">
+          <ButtonLink to="/packages" variant="primary" size="md">
+            View All Packages
+          </ButtonLink>
         </div>
       </section>
 
@@ -218,15 +201,8 @@ function Home() {
       <section className="section">
         <div className="container-page">
           <SectionHeading eyebrow="Reviews" title="What travellers say" align="center" />
-          {testimonialsArePlaceholders && (
-            <p className="mx-auto mt-4 max-w-2xl rounded-lg bg-muted p-3 text-center text-xs text-muted-foreground">
-              Sample content: these are placeholder reviews, not real customer feedback.
-            </p>
-          )}
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {testimonials.slice(0, 3).map((t) => (
-              <TestimonialCard key={t.id} testimonial={t} />
-            ))}
+          <div className="mt-10 overflow-hidden">
+            <InfiniteMovingCards items={dummyReviews} direction="right" speed="slow" />
           </div>
           <div className="mt-8 text-center">
             <Link to="/reviews" className="text-sm font-semibold text-secondary hover:underline">

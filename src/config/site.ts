@@ -67,10 +67,6 @@ export const siteConfig: SiteConfig = {
 export const navLinks = [
   { label: "Home", to: "/" },
   { label: "Services", to: "/services" },
-  { label: "Car Rental", to: "/vehicles" },
   { label: "Tour Packages", to: "/packages" },
-  { label: "About", to: "/about" },
-  { label: "Gallery", to: "/gallery" },
-  { label: "Reviews", to: "/reviews" },
   { label: "Contact", to: "/contact" },
 ] as const;
