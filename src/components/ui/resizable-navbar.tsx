@@ -17,7 +17,7 @@ export function Navbar({ children, className }: { children: React.ReactNode; cla
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() || 0;
-    
+
     if (latest <= 50) {
       setIsAtTop(true);
       setHidden(false);
@@ -49,7 +49,7 @@ export function Navbar({ children, className }: { children: React.ReactNode; cla
         className={cn(
           "relative flex flex-col overflow-hidden transition-all duration-500 border",
           isAtTop
-            ? "rounded-none border-transparent bg-transparent shadow-none"
+            ? "rounded-none border-b border-white/10 bg-black/60 md:bg-transparent md:border-transparent backdrop-blur-md md:backdrop-blur-none shadow-sm md:shadow-none"
             : "rounded-full border-border bg-background/90 backdrop-blur-lg shadow-sm"
         )}
       >
@@ -85,12 +85,12 @@ export function NavbarLogo() {
   const logoSrc = isDark ? logoDark : logoLight;
 
   return (
-    <Link to="/" className="flex items-center gap-2 shrink-0 relative z-20" aria-label={`${siteConfig.name} home`}>
-      <img src={logoSrc} alt="Logo" className="h-10 w-auto md:h-12" width={48} height={48} />
+    <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 relative z-20" aria-label={`${siteConfig.name} home`}>
+      <img src={logoSrc} alt="Logo" className="h-11 w-auto sm:h-12 md:h-14 transition-all duration-300" width={56} height={56} />
       <span
         className={cn(
-          "font-display text-lg font-semibold tracking-tight md:text-xl hidden sm:inline-block transition-colors duration-300",
-          isAtTop ? "text-white" : "text-primary dark:text-accent"
+          "font-display text-base sm:text-lg md:text-xl font-bold tracking-tight inline-block transition-colors duration-300",
+          isAtTop ? "text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" : "text-primary dark:text-accent font-bold"
         )}
       >
         {siteConfig.name}
@@ -108,10 +108,10 @@ export function NavItems({ items }: { items: { name: string; link: string }[] })
           key={idx}
           to={item.link as any}
           className={cn(
-            "text-sm font-medium transition-colors",
+            "text-sm font-bold tracking-wide transition-colors",
             isAtTop
-              ? "text-white/90 hover:text-white"
-              : "text-muted-foreground hover:text-foreground"
+              ? "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] hover:text-white/80"
+              : "text-foreground hover:text-primary"
           )}
         >
           {item.name}
@@ -163,15 +163,27 @@ export function MobileNav({ children }: { children: React.ReactNode }) {
 
 export function MobileNavHeader({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center justify-between px-6 py-2 w-full relative z-20">
+    <div className="flex items-center justify-between px-4 py-2.5 sm:px-6 w-full relative z-20">
       {children}
     </div>
   );
 }
 
 export function MobileNavToggle({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) {
+  const { isAtTop } = React.useContext(NavbarContext);
   return (
-    <button onClick={onClick} className="text-foreground p-1" aria-label="Toggle Menu">
+    <button
+      onClick={onClick}
+      className={cn(
+        "p-2 rounded-xl transition-all flex items-center justify-center",
+        isOpen
+          ? "bg-muted text-foreground"
+          : isAtTop
+          ? "bg-white/15 text-white hover:bg-white/25 border border-white/20 backdrop-blur-sm"
+          : "bg-muted/80 text-foreground hover:bg-muted"
+      )}
+      aria-label="Toggle Menu"
+    >
       {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
     </button>
   );
@@ -194,9 +206,9 @@ export function MobileNavMenu({
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="overflow-hidden"
+          className="overflow-hidden bg-background/95 dark:bg-background/98 backdrop-blur-xl border-t border-border/50 shadow-2xl"
         >
-          <div className="flex flex-col px-6 pb-6 pt-2 gap-4 border-t border-border/50">
+          <div className="flex flex-col px-6 pb-6 pt-3 gap-3">
             {children}
           </div>
         </motion.div>

@@ -57,7 +57,7 @@ export function Navbar() {
                 key={`mobile-link-${idx}`}
                 to={item.link as any}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-foreground dark:text-foreground/90 font-medium py-2 text-lg"
+                className="relative text-foreground dark:text-foreground/90 font-bold py-2 text-base sm:text-lg hover:text-primary transition-colors"
               >
                 <span className="block">{item.name}</span>
               </Link>
