@@ -26,7 +26,7 @@ export const galleryImages: GalleryImage[] = [
   { id: "g3", src: destBeach, alt: "Sunset over a sandy beach with palm silhouettes", category: "Destinations" },
   { id: "g4", src: destHeritage, alt: "Carved stone temple architecture in warm daylight", category: "Destinations" },
   { id: "g5", src: heroRoad, alt: "Vehicle on a winding mountain road at golden hour", category: "Tours" },
-  { id: "g6", src: aboutTeam, alt: "Chauffeur in uniform beside a clean white sedan at a hotel entrance", category: "Company" },
+  { id: "g6", src: aboutTeam, alt: "Professional driver beside a clean white sedan at a hotel entrance", category: "Company" },
   { id: "g7", src: sedan, alt: "White sedan available for city and airport transfers", category: "Vehicles" },
   { id: "g8", src: suv, alt: "Silver seven-seater MPV for family travel", category: "Vehicles" },
   { id: "g9", src: van, alt: "White tempo traveller minibus for group travel", category: "Vehicles" },

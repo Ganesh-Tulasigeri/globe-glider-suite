@@ -100,7 +100,7 @@ export function CinematicHero() {
           aria-label="Choose a destination photo"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
-          className="mt-8 flex items-center gap-3 md:absolute md:right-16 md:top-1/2 md:mt-0 md:-translate-y-1/2 md:flex-col md:items-end md:gap-4"
+          className="mt-8 flex items-end gap-3 sm:gap-4 overflow-x-auto pb-2 pt-1 no-scrollbar md:overflow-visible md:pb-0 md:pt-0 md:absolute md:right-16 md:top-1/2 md:mt-0 md:-translate-y-1/2 md:flex-col md:items-end md:gap-4"
         >
           {slides.map((slide, index) => {
             const active = index === current;
@@ -114,12 +114,15 @@ export function CinematicHero() {
                 aria-pressed={active}
                 // Each circle shifts left the further it is from the active one, which forms the curve.
                 style={{ "--arc-x": `${-distance * 22}px` } as CSSProperties}
-                className="group flex items-center gap-3 transition-transform duration-500 md:[transform:translateX(var(--arc-x))]"
+                className="group shrink-0 flex flex-col items-center gap-1.5 transition-transform duration-500 md:flex-row md:gap-3 md:[transform:translateX(var(--arc-x))]"
               >
+                {/* Desktop label: shown to the left */}
                 <span className="hidden text-right md:block">
                   <span className="block text-sm font-semibold leading-tight drop-shadow">{slide.name}</span>
                   <span className="block text-xs text-white/80 drop-shadow">{slide.place}</span>
                 </span>
+
+                {/* Round thumbnail image */}
                 <img
                   src={slide.image}
                   alt=""
@@ -129,10 +132,25 @@ export function CinematicHero() {
                   className={cn(
                     "rounded-full object-cover transition-all duration-500",
                     active
-                      ? "h-16 w-16 ring-4 ring-white/70 md:h-28 md:w-28"
-                      : "h-12 w-12 opacity-80 ring-2 ring-white/40 group-hover:opacity-100 md:h-20 md:w-20",
+                      ? "h-14 w-14 ring-4 ring-white/80 md:h-28 md:w-28"
+                      : "h-11 w-11 opacity-80 ring-2 ring-white/40 group-hover:opacity-100 md:h-20 md:w-20",
                   )}
                 />
+
+                {/* Mobile label: shown directly below the image */}
+                <div className="flex flex-col items-center text-center md:hidden max-w-[4.8rem]">
+                  <span
+                    className={cn(
+                      "text-[11px] font-bold leading-tight drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] truncate w-full transition-colors",
+                      active ? "text-white" : "text-white/80"
+                    )}
+                  >
+                    {slide.name}
+                  </span>
+                  <span className="text-[9px] text-white/70 drop-shadow leading-tight truncate w-full">
+                    {slide.place}
+                  </span>
+                </div>
               </button>
             );
           })}

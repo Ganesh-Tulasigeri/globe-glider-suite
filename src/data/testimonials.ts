@@ -27,7 +27,7 @@ export const testimonials: Testimonial[] = [
   { id: "t3", name: "Arun Mehta", location: "Airport Transfer", rating: null,
     text: "The airport transfer was smooth and stress-free. Our driver waited patiently even when our flight was delayed." },
   { id: "t4", name: "Sunita Reddy", location: "Wayanad Day Trip", rating: null,
-    text: "Best road trip experience. The chauffeur was knowledgeable about local spots and made our trip memorable." },
+    text: "Best road trip experience. The driver was knowledgeable about local spots and made our trip memorable." },
   { id: "t5", name: "Kiran Nair", location: "Kerala Tour Package", rating: null,
     text: "Transparent pricing, no hidden charges. Booked a multi-day tour and every detail was taken care of." },
   { id: "t6", name: "Deepa Menon", location: "Munnar Group Tour", rating: null,

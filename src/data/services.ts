@@ -171,14 +171,14 @@ export const services: Service[] = [
   {
     slug: "vehicle-rental",
     title: "Vehicle Rental",
-    summary: "Hourly, daily and monthly chauffeur-driven rentals across our fleet.",
+    summary: "Hourly, daily and monthly car rentals with driver across our fleet.",
     intro:
       "Hire a vehicle with a driver for as long as you need it — a few hours in the city, a full day of meetings, or a monthly arrangement for ongoing travel.",
     image: vehicleRentalImage,
     benefits: [
       "Hourly, daily and monthly options",
       "Choice of sedans, MPVs, vans and coaches",
-      "Chauffeur included",
+      "Professional driver included",
       "Extendable on the day, subject to availability",
     ],
     process: [

@@ -105,7 +105,7 @@ export function DiamondSliderHero() {
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-zinc-300 md:text-lg">
             <Shimmer>
-              Chauffeur-driven vehicles, airport transfers, day trips and multi-day tour packages — planned around your dates, your group and your pace.
+              Private cabs with driver, airport transfers, day trips and tour packages — planned around your dates, your group and your pace.
             </Shimmer>
           </p>
           <div className="reveal mt-10 flex flex-wrap gap-4">

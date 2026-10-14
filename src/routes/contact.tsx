@@ -15,7 +15,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Get in touch to plan a trip, book a chauffeur-driven vehicle or ask about a tour package. Call, WhatsApp or send an enquiry.",
+          "Get in touch to plan a trip, book a vehicle with driver or ask about a tour package. Call, WhatsApp or send an enquiry.",
       },
       { property: "og:title", content: `Contact — ${siteConfig.name}` },
       {

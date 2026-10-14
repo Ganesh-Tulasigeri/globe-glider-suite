@@ -13,7 +13,7 @@ export const Route = createFileRoute("/vehicles")({
       {
         name: "description",
         content:
-          "Chauffeur-driven sedans, MPVs, tempo travellers and coaches for airport transfers, city travel and group trips.",
+          "Sedans, MPVs, tempo travellers and coaches with experienced drivers for airport transfers, city travel and group trips.",
       },
       { property: "og:title", content: `Car rental & fleet — ${siteConfig.name}` },
       { property: "og:description", content: "Sedans, MPVs, tempo travellers and coaches with drivers." },
@@ -29,7 +29,7 @@ function VehiclesPage() {
     <>
       <PageHero
         title="Car rental & fleet"
-        description="Chauffeur-driven vehicles for every group size. Tell us the route and we will suggest the right one."
+        description="Comfortable vehicles with driver for every group size. Tell us the route and we will suggest the right one."
         image={vehicleCoach}
         crumbs={[{ label: "Car Rental" }]}
       />

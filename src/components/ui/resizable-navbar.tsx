@@ -49,7 +49,7 @@ export function Navbar({ children, className }: { children: React.ReactNode; cla
         className={cn(
           "relative flex flex-col overflow-hidden transition-all duration-500 border",
           isAtTop
-            ? "rounded-none border-b border-white/10 bg-black/60 md:bg-transparent md:border-transparent backdrop-blur-md md:backdrop-blur-none shadow-sm md:shadow-none"
+            ? "rounded-none border-transparent bg-transparent shadow-none"
             : "rounded-full border-border bg-background/90 backdrop-blur-lg shadow-sm"
         )}
       >
@@ -157,8 +157,8 @@ export function NavbarButton({
   );
 }
 
-export function MobileNav({ children }: { children: React.ReactNode }) {
-  return <div className="flex flex-col md:hidden w-full">{children}</div>;
+export function MobileNav({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn("flex flex-col md:hidden w-full transition-colors duration-300", className)}>{children}</div>;
 }
 
 export function MobileNavHeader({ children }: { children: React.ReactNode }) {
@@ -206,7 +206,7 @@ export function MobileNavMenu({
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="overflow-hidden bg-background/95 dark:bg-background/98 backdrop-blur-xl border-t border-border/50 shadow-2xl"
+          className="overflow-hidden border-t border-border/50"
         >
           <div className="flex flex-col px-6 pb-6 pt-3 gap-3">
             {children}

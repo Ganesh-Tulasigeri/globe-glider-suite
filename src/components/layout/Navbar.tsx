@@ -39,7 +39,7 @@ export function Navbar() {
         </NavBody>
 
         {/* Mobile Navigation */}
-        <MobileNav>
+        <MobileNav className={isMobileMenuOpen ? "bg-background/95 dark:bg-background/98 backdrop-blur-xl border-b border-border/50 shadow-xl" : ""}>
           <MobileNavHeader>
             <NavbarLogo />
             <MobileNavToggle

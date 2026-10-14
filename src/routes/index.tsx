@@ -32,12 +32,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Chauffeur-driven car rental, airport transfers, sightseeing and custom tour packages. Enquire on WhatsApp for a quick quote.",
+          "Private car rentals with driver, airport transfers, sightseeing and custom tour packages. Enquire on WhatsApp for a quick quote.",
       },
       { property: "og:title", content: `${siteConfig.name} — Travel & tourism services` },
       {
         property: "og:description",
-        content: "Chauffeur-driven vehicles, airport transfers, sightseeing and tour packages.",
+        content: "Private cabs with driver, airport transfers, sightseeing and tour packages.",
       },
       { property: "og:url", content: "/" },
     ],
@@ -52,7 +52,7 @@ export const Route = createFileRoute("/")({
 
 /** Four short promises shown right under the hero. Keep them true. */
 const trustPoints = [
-  { Icon: ShieldCheck, title: "Experienced chauffeurs", text: "Vehicles checked before every trip." },
+  { Icon: ShieldCheck, title: "Experienced drivers", text: "Vehicles checked before every trip." },
   { Icon: BadgeCheck, title: "Quoted in writing", text: "Inclusions confirmed before you travel." },
   { Icon: CarFront, title: "Clean AC vehicles", text: "Sized for your group and luggage." },
   { Icon: HeartHandshake, title: "Support on the road", text: "One contact during the journey." },
@@ -60,7 +60,7 @@ const trustPoints = [
 
 /** The cards in the "Why choose us" section (four, so they sit evenly in one row on wide screens). */
 const whyChooseUs = [
-  { Icon: ShieldCheck, title: "Safety first", text: "Vehicles are checked before every trip and driven by experienced chauffeurs." },
+  { Icon: ShieldCheck, title: "Safety first", text: "Vehicles are checked before every trip and driven by experienced drivers." },
   { Icon: RouteIcon, title: "Customised trips", text: "Routes, stops and timings are planned around your plans, not a fixed template." },
   { Icon: BadgeCheck, title: "Transparent pricing", text: "Inclusions and exclusions are confirmed in writing before you travel." },
   { Icon: Clock, title: "On-time pickups", text: "Pickup times are planned with traffic and flight schedules in mind." },
@@ -287,7 +287,7 @@ function Home() {
           <div className="overflow-hidden rounded-2xl shadow-card">
             <img
               src={aboutTeam}
-              alt="Uniformed chauffeur beside a clean white sedan at a hotel entrance"
+              alt="Professional driver beside a clean white sedan at a hotel entrance"
               className="aspect-[4/3] w-full object-cover"
               loading="lazy"
             />
@@ -295,7 +295,7 @@ function Home() {
           <div>
             <h2 className="text-3xl text-primary md:text-4xl">Reliable rides, planned around you</h2>
             <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">
-              {siteConfig.name} pairs a professional chauffeur-driven fleet with itineraries built
+              {siteConfig.name} pairs clean vehicles and experienced drivers with trip plans built
               for your group, your dates and your pace, so every journey is comfortable, safe and
               easy to plan.
             </p>

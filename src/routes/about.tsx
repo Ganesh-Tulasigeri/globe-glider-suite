@@ -35,7 +35,7 @@ export const Route = createFileRoute("/about")({
 const stats: { value: number; label: string; note?: string }[] = [];
 
 const expectations = [
-  { Icon: ShieldCheck, title: "Experienced chauffeurs", text: "Drivers who know the roads, and vehicles checked before every trip." },
+  { Icon: ShieldCheck, title: "Experienced drivers", text: "Drivers who know the roads, and vehicles checked before every trip." },
   { Icon: Compass, title: "Routes planned for you", text: "Stops, timings and rest breaks are set around your group, not a fixed template." },
   { Icon: Clock, title: "On-time pickups", text: "Pickup times are planned with traffic and flight schedules in mind." },
   { Icon: Sparkles, title: "Clean, comfortable vehicles", text: "Air-conditioned vehicles matched to your group size and luggage." },
@@ -48,7 +48,7 @@ function About() {
     <>
       <PageHero
         title="About us"
-        description="Chauffeur-driven travel and tour packages, planned around your dates, your group and your pace."
+        description="Cab services and tour packages with professional drivers, planned around your dates, your group and your pace."
         image={destHills}
         crumbs={[{ label: "About" }]}
       />
@@ -58,7 +58,7 @@ function About() {
           <div>
             <SectionHeading
               title="Reliable travel, planned around you"
-              description={`${siteConfig.name} combines a professional chauffeur-driven fleet with carefully planned itineraries, so every journey is comfortable, safe and easy to arrange.`}
+              description={`${siteConfig.name} combines clean vehicles and experienced drivers with carefully planned routes, so every journey is comfortable, safe and easy to arrange.`}
             />
             <p className="mt-5 text-base leading-relaxed text-muted-foreground">
               Every trip starts with a conversation. Tell us where you are going, when, and who is
@@ -73,7 +73,7 @@ function About() {
           <div className="overflow-hidden rounded-2xl shadow-card">
             <img
               src={aboutTeam}
-              alt="Chauffeur in uniform beside a clean white sedan"
+              alt="Professional driver beside a clean white sedan"
               loading="lazy"
               width={1200}
               height={912}

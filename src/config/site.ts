@@ -46,7 +46,7 @@ export const siteConfig: SiteConfig = {
   name: "Lifetime Travels",
   tagline: "Comfortable journeys, planned around you",
   description:
-    "A travel and tourism service offering chauffeur-driven vehicles, airport transfers, sightseeing trips and custom tour packages.",
+    "A travel and tourism service offering cabs and vehicles with experienced drivers, airport transfers, sightseeing trips and custom tour packages.",
   logoUrl: "",
   phone: "+91 6362720199",
   phoneDisplay: "+91 6362720199",

@@ -12,7 +12,7 @@ export const Route = createFileRoute("/enquiry")({
       {
         name: "description",
         content:
-          "Send an enquiry for airport transfers, chauffeur-driven car rental, sightseeing trips or a custom tour package.",
+          "Send an enquiry for airport transfers, car rentals with driver, sightseeing trips or a custom tour package.",
       },
       { property: "og:title", content: `Enquiry — ${siteConfig.name}` },
       { property: "og:description", content: "Send your trip details and get a clear quote." },
