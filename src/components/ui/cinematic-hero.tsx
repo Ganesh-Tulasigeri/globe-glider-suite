@@ -48,8 +48,7 @@ export function CinematicHero() {
   return (
     <section
       className="relative isolate flex items-end overflow-hidden bg-black text-white"
-      // Inline style so the height can never be lost: screen height minus the navbar.
-      style={{ minHeight: "max(36rem, calc(100vh - 5rem))" }}
+      style={{ height: "100dvh", minHeight: "36rem" }}
     >
       {/* Background photos, cross-fading */}
       {slides.map((slide, index) => (
@@ -70,30 +69,20 @@ export function CinematicHero() {
 
       {/* Dark layers so the text is easy to read on any photo */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/75 via-black/15 to-black/35" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/55 via-black/10 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/65 via-black/20 to-transparent" />
 
       {/* Text, bottom left */}
-      <div className="container-page w-full pb-10 pt-24 md:pb-16">
+      <div className="w-full px-6 sm:px-10 md:px-14 lg:px-16 pb-10 pt-24 md:pb-16">
         <div className="max-w-lg md:max-w-md lg:max-w-xl">
-          <p className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/25 bg-white/10 p-1 pr-4 text-xs backdrop-blur-sm sm:text-sm">
-            <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-primary">
-              {siteConfig.name}
-            </span>
-            <span className="truncate text-white/90">{siteConfig.tagline}</span>
-          </p>
-
-          <h1 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
+          <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
             Travel made simple, from the first call to the last mile
           </h1>
-          <p className="mt-4 text-base leading-relaxed text-zinc-100 md:text-lg">
-            Chauffeur-driven vehicles, airport transfers, day trips and multi-day tour packages,
+          <p className="mt-4 text-base leading-relaxed text-zinc-200 md:text-lg">
+            Private cab rides, airport transfers and tour packages —
             planned around your dates, your group and your pace.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
-            <ButtonLink to="/enquiry" variant="accent" size="lg">
-              Get a Free Quote
-            </ButtonLink>
             <ButtonLink
               to="/packages"
               variant="onDark"

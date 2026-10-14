@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/resizable-navbar";
 
 /**
- * One primary action across the whole site: "Get a Free Quote" -> /enquiry.
+ * One primary action across the whole site: "Book Now" -> /enquiry.
  * The dark-mode toggle was removed from the header to keep it uncluttered.
  * The .dark theme in styles.css is untouched, so it can be added back later.
  */
@@ -34,7 +34,7 @@ export function Navbar() {
           <NavbarLogo />
           <NavItems items={mappedNavItems} />
           <NavbarButton href="/enquiry" variant="primary">
-            Get a Free Quote
+            Book Now
           </NavbarButton>
         </NavBody>
 
@@ -69,7 +69,7 @@ export function Navbar() {
                 variant="primary"
                 className="w-full"
               >
-                Get a Free Quote
+                Book Now
               </NavbarButton>
             </div>
           </MobileNavMenu>

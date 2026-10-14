@@ -8,6 +8,8 @@ import { Menu, X } from "lucide-react";
 import logoLight from "@/assets/llogo.png";
 import logoDark from "@/assets/dlogo.png";
 
+const NavbarContext = React.createContext<{ isAtTop: boolean }>({ isAtTop: true });
+
 export function Navbar({ children, className }: { children: React.ReactNode; className?: string }) {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = React.useState(false);
@@ -43,13 +45,17 @@ export function Navbar({ children, className }: { children: React.ReactNode; cla
         className
       )}
     >
-      <nav 
+      <nav
         className={cn(
-          "relative flex flex-col bg-background/90 backdrop-blur-lg shadow-sm overflow-hidden transition-all duration-300 border",
-          isAtTop ? "rounded-none border-x-transparent border-t-transparent border-b-border" : "rounded-full border-border"
+          "relative flex flex-col overflow-hidden transition-all duration-500 border",
+          isAtTop
+            ? "rounded-none border-transparent bg-transparent shadow-none"
+            : "rounded-full border-border bg-background/90 backdrop-blur-lg shadow-sm"
         )}
       >
-        {children}
+        <NavbarContext.Provider value={{ isAtTop }}>
+          {children}
+        </NavbarContext.Provider>
       </nav>
     </motion.div>
   );
@@ -65,6 +71,7 @@ export function NavBody({ children }: { children: React.ReactNode }) {
 
 export function NavbarLogo() {
   const [isDark, setIsDark] = React.useState(false);
+  const { isAtTop } = React.useContext(NavbarContext);
 
   React.useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
@@ -80,7 +87,12 @@ export function NavbarLogo() {
   return (
     <Link to="/" className="flex items-center gap-2 shrink-0 relative z-20" aria-label={`${siteConfig.name} home`}>
       <img src={logoSrc} alt="Logo" className="h-10 w-auto md:h-12" width={48} height={48} />
-      <span className="font-display text-lg font-semibold tracking-tight text-primary dark:text-accent md:text-xl hidden sm:inline-block">
+      <span
+        className={cn(
+          "font-display text-lg font-semibold tracking-tight md:text-xl hidden sm:inline-block transition-colors duration-300",
+          isAtTop ? "text-white" : "text-primary dark:text-accent"
+        )}
+      >
         {siteConfig.name}
       </span>
     </Link>
@@ -88,13 +100,19 @@ export function NavbarLogo() {
 }
 
 export function NavItems({ items }: { items: { name: string; link: string }[] }) {
+  const { isAtTop } = React.useContext(NavbarContext);
   return (
     <div className="flex items-center gap-6">
       {items.map((item, idx) => (
         <Link
           key={idx}
           to={item.link as any}
-          className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          className={cn(
+            "text-sm font-medium transition-colors",
+            isAtTop
+              ? "text-white/90 hover:text-white"
+              : "text-muted-foreground hover:text-foreground"
+          )}
         >
           {item.name}
         </Link>
@@ -108,23 +126,32 @@ export function NavbarButton({
   variant = "primary",
   className,
   onClick,
+  href,
 }: {
   children: React.ReactNode;
   variant?: "primary" | "secondary";
   className?: string;
   onClick?: () => void;
+  href?: string;
 }) {
+  const cls = cn(
+    "px-4 py-2 text-sm font-medium rounded-xl transition-colors",
+    variant === "primary"
+      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+      : "bg-muted text-foreground hover:bg-muted/80",
+    className
+  );
+
+  if (href) {
+    return (
+      <Link to={href as any} onClick={onClick} className={cls}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <button
-      onClick={onClick}
-      className={cn(
-        "px-4 py-2 text-sm font-medium rounded-xl transition-colors",
-        variant === "primary"
-          ? "bg-primary text-primary-foreground hover:bg-primary/90"
-          : "bg-muted text-foreground hover:bg-muted/80",
-        className
-      )}
-    >
+    <button onClick={onClick} className={cls}>
       {children}
     </button>
   );
