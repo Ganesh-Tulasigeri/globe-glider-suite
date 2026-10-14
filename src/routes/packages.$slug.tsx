@@ -177,7 +177,7 @@ function PackageDetail() {
               )}
               <div className="mt-4 flex flex-col gap-2">
                 <ButtonLink to="/enquiry" search={{ interest: pkg.title }} variant="accent" size="lg">
-                  Get a Free Quote
+                  Book Now
                 </ButtonLink>
                 {wa && (
                   <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="outline" size="lg">

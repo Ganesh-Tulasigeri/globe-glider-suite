@@ -1,7 +1,7 @@
 "use client";
 import React, { CSSProperties, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, MapPin, MessageCircle } from "lucide-react";
+import { CalendarDays, ChevronLeft, ChevronRight, MapPin, MessageCircle } from "lucide-react";
 import { ButtonAnchor, ButtonLink } from "@/components/common/Button";
 import type { TourPackage } from "@/data/packages";
 import { siteConfig } from "@/config/site";
@@ -33,9 +33,14 @@ const styles = `
     padding: 36px 0 34px;
     background: transparent;
     perspective: 1200px;
-    cursor: ns-resize;
+    cursor: grab;
     user-select: none;
     -webkit-user-select: none;
+    touch-action: pan-y;
+  }
+
+  .carousel-stage:active {
+    cursor: grabbing;
   }
 
   .carousel-track {
@@ -154,16 +159,23 @@ const styles = `
     height: 8px;
     border-radius: 999px;
     background: hsl(var(--foreground));
-    opacity: 0.19;
+    opacity: 0.25;
+    border: none;
+    padding: 0;
+    cursor: pointer;
     transform: scale(1);
     transition:
       opacity 200ms ease,
       transform 200ms ease;
   }
 
+  .pagination-dot:hover {
+    opacity: 0.65;
+  }
+
   .pagination-dot.active {
     opacity: 1;
-    transform: scale(1.08);
+    transform: scale(1.35);
   }
 
   .scroll-hint {
@@ -238,6 +250,11 @@ export function PerspectiveCarousel({ items }: { items: TourPackage[] }) {
   const positionRef = useRef(0);
   const targetRef = useRef(0);
   const activeIndexRef = useRef(0);
+
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const startPosRef = useRef(0);
+  const hasMovedRef = useRef(false);
 
   const animationFrameRef = useRef<number | null>(null);
   const previousFrameRef = useRef(0);
@@ -360,12 +377,9 @@ export function PerspectiveCarousel({ items }: { items: TourPackage[] }) {
 
   const moveOneCard = useCallback(
     (direction: 1 | -1, manual = false) => {
-      if (manual) {
-        stopAutoplay();
-        targetRef.current = Math.round(positionRef.current) + direction;
-      } else {
-        targetRef.current = Math.round(targetRef.current) + direction;
-      }
+      stopAutoplay();
+      const currentPos = positionRef.current;
+      targetRef.current = Math.round(currentPos) + direction;
 
       const reducedMotion =
         window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
@@ -377,10 +391,97 @@ export function PerspectiveCarousel({ items }: { items: TourPackage[] }) {
         return;
       }
 
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+        previousFrameRef.current = 0;
+      }
+
       runAnimation();
     },
     [paint, runAnimation, stopAutoplay, updateActiveIndex],
   );
+
+  const goToCard = useCallback(
+    (index: number) => {
+      stopAutoplay();
+      const currentPos = positionRef.current;
+      const offset = getCircularOffset(index, currentPos, total);
+      targetRef.current = Math.round(currentPos) + offset;
+
+      const reducedMotion =
+        window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+
+      if (reducedMotion) {
+        positionRef.current = targetRef.current;
+        paint();
+        updateActiveIndex(targetRef.current);
+        return;
+      }
+
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+        previousFrameRef.current = 0;
+      }
+
+      runAnimation();
+    },
+    [total, stopAutoplay, paint, updateActiveIndex, runAnimation],
+  );
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if ((e.target as HTMLElement).closest("button")) return;
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    isDraggingRef.current = true;
+    startXRef.current = e.clientX;
+    startPosRef.current = positionRef.current;
+    hasMovedRef.current = false;
+    stopAutoplay();
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return;
+    const deltaX = e.clientX - startXRef.current;
+    if (Math.abs(deltaX) > 6) {
+      hasMovedRef.current = true;
+    }
+    const dragOffset = -deltaX / pitch;
+    const newPos = startPosRef.current + dragOffset;
+    positionRef.current = newPos;
+    paint();
+    updateActiveIndex(newPos);
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    try {
+      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    } catch {}
+
+    const deltaX = e.clientX - startXRef.current;
+    let target = Math.round(positionRef.current);
+    if (Math.abs(deltaX) > 35) {
+      const dir = deltaX > 0 ? -1 : 1;
+      target = Math.round(startPosRef.current) + dir;
+    }
+    targetRef.current = target;
+    runAnimation();
+  };
+
+  const handlePointerCancel = (e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    try {
+      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    } catch {}
+    targetRef.current = Math.round(positionRef.current);
+    runAnimation();
+  };
 
   useLayoutEffect(() => {
     paint();
@@ -488,9 +589,47 @@ export function PerspectiveCarousel({ items }: { items: TourPackage[] }) {
           aria-roledescription="carousel"
           aria-label="Tour Packages Carousel"
         >
-          <div ref={stageRef} className="carousel-stage">
-            <div className="carousel-track">
-              <div className="deck-shadow" />
+          <div className="relative w-full">
+            {/* Left manual navigation button */}
+            <button
+              type="button"
+              aria-label="Previous package"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                moveOneCard(-1, true);
+              }}
+              className="absolute left-2 sm:left-6 md:left-12 top-1/2 z-[6000] -translate-y-1/2 rounded-full border border-border bg-card/95 hover:bg-card p-3 text-primary shadow-xl backdrop-blur-md transition-all hover:scale-110 active:scale-90 focus:outline-none cursor-pointer"
+            >
+              <ChevronLeft className="h-6 w-6" aria-hidden="true" />
+            </button>
+
+            {/* Right manual navigation button */}
+            <button
+              type="button"
+              aria-label="Next package"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                moveOneCard(1, true);
+              }}
+              className="absolute right-2 sm:right-6 md:right-12 top-1/2 z-[6000] -translate-y-1/2 rounded-full border border-border bg-card/95 hover:bg-card p-3 text-primary shadow-xl backdrop-blur-md transition-all hover:scale-110 active:scale-90 focus:outline-none cursor-pointer"
+            >
+              <ChevronRight className="h-6 w-6" aria-hidden="true" />
+            </button>
+
+            <div
+              ref={stageRef}
+              className="carousel-stage"
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerCancel}
+            >
+              <div className="carousel-track">
+                <div className="deck-shadow" />
 
               {items.map((pkg, index) => (
                 <div
@@ -515,7 +654,20 @@ export function PerspectiveCarousel({ items }: { items: TourPackage[] }) {
                   aria-label={`${index + 1} of ${total}`}
                   aria-hidden={index !== activeIndex}
                 >
-                  <Link to={`/packages/${pkg.slug}`} className="block w-full h-full">
+                  <Link
+                    to={`/packages/${pkg.slug}`}
+                    className="block w-full h-full"
+                    onClick={(e) => {
+                      if (hasMovedRef.current) {
+                        e.preventDefault();
+                        return;
+                      }
+                      if (index !== activeIndexRef.current) {
+                        e.preventDefault();
+                        goToCard(index);
+                      }
+                    }}
+                  >
                     <img
                       src={pkg.image}
                       alt={pkg.title}
@@ -528,6 +680,7 @@ export function PerspectiveCarousel({ items }: { items: TourPackage[] }) {
               ))}
             </div>
           </div>
+        </div>
 
           <div className="details">
             <div key={activeIndex} className="caption" aria-live="polite">
@@ -600,16 +753,21 @@ export function PerspectiveCarousel({ items }: { items: TourPackage[] }) {
               </div>
             </div>
 
-            <div className="pagination" aria-hidden="true">
+            <div className="pagination" role="tablist" aria-label="Package pagination">
               {items.map((pkg, index) => (
-                <span
+                <button
                   key={pkg.slug}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeIndex === index}
+                  aria-label={`Go to ${pkg.title}`}
+                  onClick={() => goToCard(index)}
                   className={`pagination-dot ${activeIndex === index ? "active" : ""}`}
                 />
               ))}
             </div>
 
-            <p className="scroll-hint">Scroll or swipe to explore</p>
+            <p className="scroll-hint">Drag, swipe, or use arrows to explore</p>
           </div>
         </section>
       </div>

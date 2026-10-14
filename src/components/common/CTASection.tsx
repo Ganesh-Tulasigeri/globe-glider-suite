@@ -28,11 +28,8 @@ export function CTASection({
           <p className="mt-3 text-sm leading-relaxed text-secondary-foreground/85 md:text-base">{description}</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <ButtonLink to="/enquiry" variant="accent" size="lg">
-            Get a Free Quote
-          </ButtonLink>
           {wa && (
-            <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="onDark" size="lg">
+            <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="accent" size="lg">
               <MessageCircle className="h-4 w-4" aria-hidden="true" /> WhatsApp
             </ButtonAnchor>
           )}
