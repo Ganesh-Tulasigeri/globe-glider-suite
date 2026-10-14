@@ -4,6 +4,7 @@ import { Button } from "@/components/common/Button";
 import { siteConfig } from "@/config/site";
 import { packages } from "@/data/packages";
 import { services } from "@/data/services";
+import { vehicles } from "@/data/vehicles";
 import { hasWhatsApp, isValidPhone, whatsappLink } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
@@ -127,10 +128,12 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
     return (
       <div className="rounded-xl border border-border bg-card p-6 shadow-card" role="status">
         <CheckCircle2 className="h-8 w-8 text-success" aria-hidden="true" />
-        <h3 className="mt-3 text-lg text-primary">Enquiry sent</h3>
+        <h3 className="mt-3 text-lg text-primary">
+          {hasWhatsApp() ? "One more step: send it on WhatsApp" : "Enquiry sent"}
+        </h3>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           {hasWhatsApp()
-            ? "Your details were passed to WhatsApp — press send in the chat that opened to complete your enquiry. If the tab did not open, please check your pop-up blocker."
+            ? "Your details are ready in the WhatsApp chat that just opened. Press send there to complete your enquiry. If nothing opened, please check your pop-up blocker."
             : "Thanks — your enquiry has been submitted. We will get back to you shortly."}
         </p>
         <Button variant="outline" size="sm" className="mt-4" onClick={() => setStatus("idle")}>
@@ -240,9 +243,17 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
                 </option>
               ))}
             </optgroup>
+            <optgroup label="Vehicles">
+              {vehicles.map((v) => (
+                <option key={v.id} value={v.name}>
+                  {v.name}
+                </option>
+              ))}
+            </optgroup>
             {defaultInterest &&
               !services.some((s) => s.title === defaultInterest) &&
-              !packages.some((p) => p.title === defaultInterest) && (
+              !packages.some((p) => p.title === defaultInterest) &&
+              !vehicles.some((v) => v.name === defaultInterest) && (
                 <option value={defaultInterest}>{defaultInterest}</option>
               )}
           </select>

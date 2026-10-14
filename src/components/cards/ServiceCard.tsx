@@ -4,7 +4,7 @@ import type { Service } from "@/data/services";
 
 export function ServiceCard({ service }: { service: Service }) {
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all duration-300 focus-within:ring-2 focus-within:ring-ring hover:-translate-y-1 hover:shadow-lift">
       <div className="aspect-[16/10] overflow-hidden bg-muted">
         <img
           src={service.image}
@@ -16,17 +16,23 @@ export function ServiceCard({ service }: { service: Service }) {
         />
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-lg text-primary">{service.title}</h3>
+        <h3 className="text-lg text-primary">
+          {/* The ::after layer stretches this link over the whole card, so the full card is clickable. */}
+          <Link
+            to="/services/$slug"
+            params={{ slug: service.slug }}
+            className="outline-none after:absolute after:inset-0 after:content-['']"
+          >
+            {service.title}
+          </Link>
+        </h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{service.summary}</p>
-        <Link
-          to="/services/$slug"
-          params={{ slug: service.slug }}
-          className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:gap-2.5"
+        <span
+          className="mt-4 inline-flex text-secondary transition-transform group-hover:translate-x-1"
+          aria-hidden="true"
         >
-          Learn more
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          <span className="sr-only">about {service.title}</span>
-        </Link>
+          <ArrowRight className="h-5 w-5" />
+        </span>
       </div>
     </article>
   );

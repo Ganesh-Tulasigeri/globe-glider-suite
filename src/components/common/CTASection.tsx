@@ -29,7 +29,7 @@ export function CTASection({
         </div>
         <div className="flex flex-wrap gap-3">
           <ButtonLink to="/enquiry" variant="accent" size="lg">
-            Enquire Now
+            Get a Free Quote
           </ButtonLink>
           {wa && (
             <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="onDark" size="lg">

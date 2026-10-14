@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Award, Compass, HeartHandshake, Languages, MapPin, ShieldCheck, Sparkles, Star, ThumbsUp } from "lucide-react";
+import { BadgeCheck, Clock, Compass, HeartHandshake, ShieldCheck, Sparkles } from "lucide-react";
 import aboutTeam from "@/assets/about-team.jpg";
 import destHills from "@/assets/dest-hills.jpg";
 import { PageHero } from "@/components/common/PageHero";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { CTASection } from "@/components/common/CTASection";
 import { siteConfig } from "@/config/site";
-import Counter from '@/components/ui/Counter';
+import Counter from "@/components/ui/Counter";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -26,44 +26,21 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
-const values = [
-  { Icon: ShieldCheck, title: "Reliability", text: "A confirmed booking means a vehicle and driver are held for you." },
-  { Icon: Compass, title: "Local knowledge", text: "Routes and timings are planned by people who drive them regularly." },
-  { Icon: HeartHandshake, title: "Straight answers", text: "Clear inclusions, clear costs and no pressure to upgrade." },
-  { Icon: Sparkles, title: "Comfort", text: "Clean, well-kept vehicles matched to your group size and luggage." },
-];
+/**
+ * REAL NUMBERS ONLY. Add facts you can stand behind and a stats bar appears
+ * automatically, e.g.
+ *   { value: 12, label: "Years in business", note: "Serving travellers since 2014" }
+ * While this list is empty, no numbers are shown.
+ */
+const stats: { value: number; label: string; note?: string }[] = [];
 
-const driverHighlights = [
-  {
-    Icon: Award,
-    title: "Professionally Trained",
-    text: "Every driver undergoes rigorous training in safe driving techniques, route knowledge and customer etiquette before they take the wheel.",
-  },
-  {
-    Icon: ShieldCheck,
-    title: "Verified & Background Checked",
-    text: "All drivers carry valid licences, are police-verified and undergo periodic re-checks so you always travel with someone you can trust.",
-  },
-  {
-    Icon: MapPin,
-    title: "Local Route Experts",
-    text: "With 15+ years of driving across India, our drivers know every shortcut, rest stop and fuel station — ensuring smooth, stress-free journeys.",
-  },
-  {
-    Icon: Languages,
-    title: "Multilingual & Courteous",
-    text: "Our drivers communicate in Kannada, Hindi, English and Tamil, making every passenger feel at home regardless of where they come from.",
-  },
-  {
-    Icon: Star,
-    title: "Consistently High-Rated",
-    text: "Passengers rate our drivers 4.8+ on average for punctuality, politeness and professionalism across thousands of completed trips.",
-  },
-  {
-    Icon: ThumbsUp,
-    title: "Passenger-First Attitude",
-    text: "From adjusting rest stops on a long drive to helping elderly passengers with luggage, our drivers go the extra mile — literally.",
-  },
+const expectations = [
+  { Icon: ShieldCheck, title: "Experienced chauffeurs", text: "Drivers who know the roads, and vehicles checked before every trip." },
+  { Icon: Compass, title: "Routes planned for you", text: "Stops, timings and rest breaks are set around your group, not a fixed template." },
+  { Icon: Clock, title: "On-time pickups", text: "Pickup times are planned with traffic and flight schedules in mind." },
+  { Icon: Sparkles, title: "Clean, comfortable vehicles", text: "Air-conditioned vehicles matched to your group size and luggage." },
+  { Icon: BadgeCheck, title: "Quoted in writing", text: "Inclusions and exclusions are confirmed before you travel." },
+  { Icon: HeartHandshake, title: "Support on the road", text: "One point of contact you can reach during the journey." },
 ];
 
 function About() {
@@ -71,29 +48,26 @@ function About() {
     <>
       <PageHero
         title="About us"
-        description="India's most trusted travel partner — delivering exceptional journeys for over 15 years."
+        description="Chauffeur-driven travel and tour packages, planned around your dates, your group and your pace."
         image={destHills}
         crumbs={[{ label: "About" }]}
       />
 
       <section className="section">
-        <div className="container-page grid items-start gap-10 lg:grid-cols-2">
+        <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <SectionHeading
-              eyebrow="Who we are"
-              title="India's finest travel experience, for over 15 years"
-              description="For more than 15 years, we have been the gold standard in chauffeur-driven travel across India. From pristine hill stations to sun-kissed coastlines, from ancient temples to buzzing cities — we have driven every road, planned every route and crafted every itinerary with one goal: to give you the most comfortable, safe and memorable journey of your life."
+              title="Reliable travel, planned around you"
+              description={`${siteConfig.name} combines a professional chauffeur-driven fleet with carefully planned itineraries, so every journey is comfortable, safe and easy to arrange.`}
             />
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-              We are not just a cab service — we are your travel companions. Over the years we have built an
-              unmatched network of destinations, vehicles and local expertise that no other operator in India can
-              match. Whether it is a family holiday, a corporate trip, a pilgrimage or a leisure tour, our team
-              delivers nothing short of excellence every single time.
+            <p className="mt-5 text-base leading-relaxed text-muted-foreground">
+              Every trip starts with a conversation. Tell us where you are going, when, and who is
+              travelling. We suggest the right vehicle, a sensible route with rest stops, and a
+              driver who knows the road.
             </p>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Every journey is planned to the finest detail: the right vehicle for your group, the most scenic
-              and efficient route, and a driver who knows the road like the back of his hand. Our promise is
-              simple — you relax, we handle everything.
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              Whether it is an airport transfer, a family holiday, a corporate booking or a temple
+              and beach tour, you get a clear quote in writing before anything is confirmed.
             </p>
           </div>
           <div className="overflow-hidden rounded-2xl shadow-card">
@@ -103,53 +77,39 @@ function About() {
               loading="lazy"
               width={1200}
               height={912}
-              className="h-full w-full object-cover"
+              className="aspect-[4/3] w-full object-cover"
             />
           </div>
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="section bg-surface py-10">
-        <div className="container-page">
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 text-center">
-            <div className="flex flex-col items-center gap-1">
-              <Counter target={15} className="text-4xl font-bold text-secondary" />
-              <span className="text-sm font-medium text-foreground">Years of Excellence</span>
-              <span className="text-xs text-muted-foreground">Serving travellers since 2009</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <Counter target={25} className="text-4xl font-bold text-secondary" />
-              <span className="text-sm font-medium text-foreground">Premium Vehicles</span>
-              <span className="text-xs text-muted-foreground">Sedans, SUVs, vans & buses</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <Counter target={1000} className="text-4xl font-bold text-secondary" />
-              <span className="text-sm font-medium text-foreground">Happy Customers</span>
-              <span className="text-xs text-muted-foreground">Families, corporates & pilgrims</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <Counter target={50} className="text-4xl font-bold text-secondary" />
-              <span className="text-sm font-medium text-foreground">Destinations Covered</span>
-              <span className="text-xs text-muted-foreground">Across India, every season</span>
+      {/* Numbers: only shown once real figures are added above */}
+      {stats.length > 0 && (
+        <section className="section bg-surface py-10">
+          <div className="container-page">
+            <div className="grid grid-cols-2 gap-8 text-center sm:grid-cols-4">
+              {stats.map((stat) => (
+                <div key={stat.label} className="flex flex-col items-center gap-1">
+                  <Counter target={stat.value} className="text-4xl font-bold text-secondary" />
+                  <span className="text-sm font-medium text-foreground">{stat.label}</span>
+                  {stat.note && <span className="text-xs text-muted-foreground">{stat.note}</span>}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* Driver Highlights */}
-      <section className="section bg-surface">
+      {/* What to expect */}
+      <section className={`section ${stats.length > 0 ? "" : "bg-surface"}`}>
         <div className="container-page">
-          <SectionHeading
-            eyebrow="Our drivers"
-            title="Experienced, courteous and always at your service"
-            description="The heart of our service is our team of hand-picked professional drivers — trained, verified and passionate about giving you the best travel experience on every trip."
-            align="center"
-          />
+          <SectionHeading title="What you can expect on every trip" align="center" />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {driverHighlights.map(({ Icon, title, text }) => (
+            {expectations.map(({ Icon, title, text }) => (
               <div key={title} className="rounded-xl border border-border bg-card p-6 shadow-card">
-                <Icon className="h-6 w-6 text-secondary" aria-hidden="true" />
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-muted text-secondary">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </span>
                 <h3 className="mt-4 text-base text-primary">{title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
               </div>
@@ -158,40 +118,15 @@ function About() {
         </div>
       </section>
 
-      {/* Values */}
-      <section className="section">
-        <div className="container-page">
-          <SectionHeading eyebrow="Our values" title="What guides the way we work" align="center" />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map(({ Icon, title, text }) => (
-              <div key={title} className="rounded-xl border border-border bg-card p-6 shadow-card">
-                <Icon className="h-6 w-6 text-secondary" aria-hidden="true" />
-                <h3 className="mt-4 text-base text-primary">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section bg-surface">
-        <div className="container-page grid gap-8 lg:grid-cols-2">
-          <div>
-            <SectionHeading eyebrow="Service areas" title="Where we operate" />
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              {siteConfig.address
-                ? `Based out of ${siteConfig.address}, we operate pan-India covering hill stations, pilgrim circuits, coastal destinations, heritage cities and everything in between.`
-                : "We operate across India — covering pilgrim circuits, hill stations, heritage cities and coastal destinations from our base in Karnataka."}
-            </p>
-          </div>
-          <div>
-            <SectionHeading eyebrow="Why customers stay" title="15 years of trust, one trip at a time" />
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              The majority of our bookings come from repeat travellers and referrals — families who came back for
-              their next holiday, corporates who made us their preferred vendor, and pilgrims who wouldn't trust
-              anyone else for the sacred journey. That loyalty is our greatest achievement.
-            </p>
-          </div>
+      {/* Where we operate */}
+      <section className={`section ${stats.length > 0 ? "bg-surface" : ""}`}>
+        <div className="container-page max-w-3xl text-center">
+          <SectionHeading title="Where we operate" align="center" />
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+            We are based in Karnataka and run local sightseeing, airport transfers, outstation
+            journeys and multi-day tours to popular temple towns, beaches and hill destinations.
+            Tell us where you want to go and we will plan the route.
+          </p>
         </div>
       </section>
 

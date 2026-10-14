@@ -1,11 +1,8 @@
-import { Briefcase, MessageCircle, Snowflake, Users } from "lucide-react";
-import { ButtonAnchor, ButtonLink } from "@/components/common/Button";
+import { Briefcase, Snowflake, Users } from "lucide-react";
+import { ButtonLink } from "@/components/common/Button";
 import type { Vehicle } from "@/data/vehicles";
-import { interestMessage, whatsappLink } from "@/lib/contact";
 
 export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
-  const wa = whatsappLink(interestMessage(`${vehicle.name} (${vehicle.type})`));
-
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
       <div className="aspect-[4/3] overflow-hidden bg-muted">
@@ -24,9 +21,11 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
             <h3 className="text-lg text-primary">{vehicle.name}</h3>
             <p className="text-sm text-muted-foreground">{vehicle.type}</p>
           </div>
-          <span className="rounded-md bg-secondary/10 px-2.5 py-1 text-xs font-semibold text-secondary">
-            {vehicle.price || "Price on request"}
-          </span>
+          {vehicle.price && (
+            <span className="rounded-md bg-secondary/10 px-2.5 py-1 text-xs font-semibold text-secondary">
+              {vehicle.price}
+            </span>
+          )}
         </div>
 
         <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-foreground/80">
@@ -64,9 +63,8 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
 
         <div className="mt-5 flex flex-wrap gap-2">
           <ButtonLink to="/enquiry" search={{ interest: vehicle.name }} variant="primary" size="sm">
-            Enquire Now
+            Get a Quote
           </ButtonLink>
-
         </div>
       </div>
     </article>

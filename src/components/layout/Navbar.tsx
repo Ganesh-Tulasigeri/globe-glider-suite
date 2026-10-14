@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { navLinks } from "@/config/site";
-import { ThemeToggle } from "@/components/common/ThemeToggle";
 import {
   Navbar as ResizableNavbar,
   NavBody,
@@ -14,6 +13,11 @@ import {
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
 
+/**
+ * One primary action across the whole site: "Get a Free Quote" -> /enquiry.
+ * The dark-mode toggle was removed from the header to keep it uncluttered.
+ * The .dark theme in styles.css is untouched, so it can be added back later.
+ */
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -29,23 +33,19 @@ export function Navbar() {
         <NavBody>
           <NavbarLogo />
           <NavItems items={mappedNavItems} />
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <NavbarButton variant="primary">Book a call</NavbarButton>
-          </div>
+          <NavbarButton href="/enquiry" variant="primary">
+            Get a Free Quote
+          </NavbarButton>
         </NavBody>
 
         {/* Mobile Navigation */}
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <MobileNavToggle
-                isOpen={isMobileMenuOpen}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              />
-            </div>
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
           </MobileNavHeader>
 
           <MobileNavMenu
@@ -64,11 +64,12 @@ export function Navbar() {
             ))}
             <div className="flex w-full flex-col gap-4 mt-6">
               <NavbarButton
+                href="/enquiry"
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"
                 className="w-full"
               >
-                Book a call
+                Get a Free Quote
               </NavbarButton>
             </div>
           </MobileNavMenu>

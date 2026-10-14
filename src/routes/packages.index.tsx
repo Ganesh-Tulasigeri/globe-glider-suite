@@ -13,7 +13,7 @@ export const Route = createFileRoute("/packages/")({
       {
         name: "description",
         content:
-          "Hill, backwater, coastal and heritage tour packages with transport included. Every itinerary can be customised to your dates.",
+          "Temple, beach and coastal tour packages from Udupi, Gokarna, Goa, Dharmasthala and more, with transport included. Every itinerary can be customised to your dates.",
       },
       { property: "og:title", content: `Tour packages — ${siteConfig.name}` },
       { property: "og:description", content: "Multi-day itineraries with transport included, customisable to your dates." },
@@ -41,11 +41,17 @@ function PackagesPage() {
               New packages are being prepared. Contact us for a custom itinerary in the meantime.
             </p>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {packages.map((pkg) => (
-                <PackageCard key={pkg.slug} pkg={pkg} />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {packages.map((pkg) => (
+                  <PackageCard key={pkg.slug} pkg={pkg} />
+                ))}
+              </div>
+              <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-muted-foreground">
+                Prices depend on your dates, group size and vehicle. Tap Get a Quote on any package and we
+                will send a written quote.
+              </p>
+            </>
           )}
         </div>
       </section>

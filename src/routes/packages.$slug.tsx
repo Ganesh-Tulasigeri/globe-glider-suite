@@ -71,16 +71,16 @@ function PackageDetail() {
         <span className="inline-flex items-center gap-2 rounded-md bg-primary-foreground/10 px-3 py-2 text-sm">
           <MapPin className="h-4 w-4" aria-hidden="true" /> {pkg.destination}
         </span>
-        <span className="inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-semibold text-accent-foreground">
-          {pkg.price || "Price on request"}
-        </span>
+        {pkg.price && (
+          <span className="inline-flex items-center gap-2 rounded-md bg-accent px-3 py-2 text-sm font-semibold text-accent-foreground">
+            {pkg.price}
+          </span>
+        )}
       </PageHero>
 
       <section className="section">
         <div className="container-page grid gap-12 lg:grid-cols-[1.3fr_1fr]">
           <div>
-
-
             <h2 className="text-2xl text-primary">Overview</h2>
             <p className="mt-3 text-base leading-relaxed text-muted-foreground">{pkg.summary}</p>
 
@@ -160,13 +160,24 @@ function PackageDetail() {
             )}
           </div>
 
-          <aside className="lg:sticky lg:top-24 lg:self-start">
+          <aside>
             <div className="rounded-xl border border-border bg-surface p-5">
-              <p className="text-sm text-muted-foreground">Starting from</p>
-              <p className="text-2xl font-semibold text-primary">{pkg.price || "Price on request"}</p>
+              {pkg.price ? (
+                <>
+                  <p className="text-sm text-muted-foreground">Starting from</p>
+                  <p className="text-2xl font-semibold text-primary">{pkg.price}</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-lg font-semibold text-primary">Get a written quote</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Tell us your dates and group size and we will send a clear price before you book.
+                  </p>
+                </>
+              )}
               <div className="mt-4 flex flex-col gap-2">
                 <ButtonLink to="/enquiry" search={{ interest: pkg.title }} variant="accent" size="lg">
-                  Enquire Now
+                  Get a Free Quote
                 </ButtonLink>
                 {wa && (
                   <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="outline" size="lg">

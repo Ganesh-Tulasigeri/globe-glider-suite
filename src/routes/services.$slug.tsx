@@ -66,7 +66,7 @@ function ServiceDetail() {
       <section className="section">
         <div className="container-page grid gap-12 lg:grid-cols-[1.3fr_1fr]">
           <div>
-            <SectionHeading eyebrow="Overview" title={`About ${service.title.toLowerCase()}`} />
+            <SectionHeading title={`About ${service.title.toLowerCase()}`} />
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">{service.intro}</p>
 
             <h3 className="mt-10 text-xl text-primary">Key benefits</h3>

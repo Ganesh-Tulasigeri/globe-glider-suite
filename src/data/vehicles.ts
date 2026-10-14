@@ -6,7 +6,6 @@ import bus from "@/assets/bus.jpg";
 import swiftDzire from "@/assets/vehicle-swift-dzire.jpg";
 import ertiga from "@/assets/vehicle-ertiga.jpg";
 import urbania from "@/assets/vehicle-urbania.jpg";
-import miniBus from "@/assets/vehicle-mini-bus.jpg";
 
 export interface Vehicle {
   id: string;
@@ -20,7 +19,7 @@ export interface Vehicle {
   /** "AC" | "Non-AC" | "" */
   airConditioning: string;
   features: string[];
-  /** Leave blank until the client confirms pricing — the UI then shows "On request". */
+  /** Leave blank until pricing is confirmed. A blank price is simply not shown on the card. */
   price: string;
 }
 
@@ -45,7 +44,7 @@ export const vehicles: Vehicle[] = [
   {
     id: "mpv",
     name: "Innova Crysta",
-    type: "7-seater",
+    type: "Premium MPV",
     image: suv,
     seats: 6,
     luggage: "3 large bags",
@@ -56,7 +55,7 @@ export const vehicles: Vehicle[] = [
   {
     id: "tempo-traveller",
     name: "Tempo Traveller",
-    type: "Minibus",
+    type: "Mini bus",
     image: van,
     seats: 12,
     luggage: "Rear luggage space",
@@ -106,17 +105,6 @@ export const vehicles: Vehicle[] = [
     luggage: "4 large bags",
     airConditioning: "AC",
     features: ["Comfortable for groups"],
-    price: "",
-  },
-  {
-    id: "mini-bus",
-    name: "Mini Bus",
-    type: "Mini bus",
-    image: miniBus,
-    seats: 12,
-    luggage: "Rear luggage space",
-    airConditioning: "AC",
-    features: ["Group travel", "Long-distance"],
     price: "",
   },
 ];

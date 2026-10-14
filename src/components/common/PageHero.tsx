@@ -19,14 +19,18 @@ export function PageHero({ title, description, image, crumbs, children }: Props)
             src={image}
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 -z-10 h-full w-full object-cover opacity-30"
-            loading="lazy"
+            className="absolute inset-0 -z-20 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 -z-10 bg-primary/70" />
+          {/* Darker on the text side so the title stays readable while the photo shows through */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/95 via-primary/75 to-primary/40" />
         </>
       )}
-      <div className="container-page py-12 md:py-20">
-        {crumbs && <div className="mb-4">{<Breadcrumbs items={crumbs} />}</div>}
+      <div className="container-page py-12 md:py-16">
+        {crumbs && (
+          <div className="mb-4">
+            <Breadcrumbs items={crumbs} />
+          </div>
+        )}
         <h1 className="max-w-3xl text-3xl leading-tight md:text-5xl">{title}</h1>
         {description && (
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-primary-foreground/80 md:text-lg">

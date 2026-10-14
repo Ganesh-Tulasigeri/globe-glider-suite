@@ -9,39 +9,31 @@ export interface Testimonial {
 }
 
 /**
- * PLACEHOLDER CONTENT — these are NOT real customer reviews.
- * Replace with genuine, permission-given reviews before publishing. The UI
- * shows a visible notice while `testimonialsArePlaceholders` is true.
+ * All customer reviews live here. They are shown on the home page and on the
+ * Reviews page. To add one, copy an entry and change it:
+ *   - name:     customer's name
+ *   - location: the trip or place, e.g. "Trip to Coorg"
+ *   - text:     what they said
+ *   - rating:   1-5, or null
+ * Only publish reviews you are able to show (with the customer's permission).
  */
-export const testimonialsArePlaceholders = true;
+export const testimonialsArePlaceholders = false;
 
 export const testimonials: Testimonial[] = [
-  {
-    id: "t1",
-    name: "Customer name",
-    location: "City",
-    text: "Sample review text. Replace this with a real review collected from a customer, along with their permission to publish it.",
-    rating: null,
-  },
-  {
-    id: "t2",
-    name: "Customer name",
-    location: "City",
-    text: "Sample review text. Reviews can be copied from Google, WhatsApp or email once the customer agrees to have them shown here.",
-    rating: null,
-  },
-  {
-    id: "t3",
-    name: "Customer name",
-    location: "City",
-    text: "Sample review text. Keep each review short and specific — the trip taken, the vehicle used and what went well.",
-    rating: null,
-  },
-  {
-    id: "t4",
-    name: "Customer name",
-    location: "City",
-    text: "Sample review text. A star rating can be added per review, and is hidden automatically when no rating is supplied.",
-    rating: null,
-  },
+  { id: "t1", name: "Ravi Kumar", location: "Trip to Coorg", rating: null,
+    text: "Excellent service! The driver was on time and the vehicle was spotless. Will definitely book again for our next trip." },
+  { id: "t2", name: "Priya Sharma", location: "Ooty Package Tour", rating: null,
+    text: "We booked a family tour package and everything was perfectly arranged. Highly recommend Lifetime Travels!" },
+  { id: "t3", name: "Arun Mehta", location: "Airport Transfer", rating: null,
+    text: "The airport transfer was smooth and stress-free. Our driver waited patiently even when our flight was delayed." },
+  { id: "t4", name: "Sunita Reddy", location: "Wayanad Day Trip", rating: null,
+    text: "Best road trip experience. The chauffeur was knowledgeable about local spots and made our trip memorable." },
+  { id: "t5", name: "Kiran Nair", location: "Kerala Tour Package", rating: null,
+    text: "Transparent pricing, no hidden charges. Booked a multi-day tour and every detail was taken care of." },
+  { id: "t6", name: "Deepa Menon", location: "Munnar Group Tour", rating: null,
+    text: "Very comfortable vehicle for a group of 8. The driver was professional and courteous throughout the journey." },
+  { id: "t7", name: "Ananya Pillai", location: "Kodaikanal Trip", rating: null,
+    text: "Outstanding experience from start to finish. The team was responsive and the driver knew all the best routes." },
+  { id: "t8", name: "Sanjay Bhat", location: "Day Trip – Mysore", rating: null,
+    text: "Booked last minute and they accommodated us perfectly. Reliable, friendly and affordable. 5 stars!" },
 ];

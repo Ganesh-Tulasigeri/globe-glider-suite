@@ -47,9 +47,9 @@ function VehiclesPage() {
               ))}
             </div>
           )}
-          <p className="mt-8 rounded-lg bg-muted p-4 text-xs text-muted-foreground">
-            Seating, luggage capacity and features are indicative for each vehicle class and should be confirmed
-            against the actual fleet. Rates are quoted per enquiry based on route, duration and season.
+          <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-muted-foreground">
+            Rates depend on route, duration and season. Tell us about your trip and we will send a clear
+            quote in writing before you travel.
           </p>
         </div>
       </section>

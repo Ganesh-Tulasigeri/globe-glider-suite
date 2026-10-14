@@ -1,14 +1,5 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+
+# Change this to your own domain when you connect one (keep /sitemap.xml at the end).
+Sitemap: https://celebrated-brigadeiros-a7e965.netlify.app/sitemap.xml

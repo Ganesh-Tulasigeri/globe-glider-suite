@@ -48,7 +48,6 @@ function ContactPage() {
         <div className="container-page grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
           <div>
             <SectionHeading
-              eyebrow="Reach us"
               title="Contact details"
               description="The quickest reply usually comes over WhatsApp."
             />
@@ -133,13 +132,10 @@ function ContactPage() {
                 )}
               </div>
             )}
-
-
           </div>
 
           <div id="enquiry-form">
             <SectionHeading
-              eyebrow="Enquiry"
               title="Send us your trip details"
               description="Fill in the form and we will get back to you with options."
             />

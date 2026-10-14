@@ -48,10 +48,12 @@ export function PackageCard({ pkg }: { pkg: TourPackage }) {
         </ul>
         <div className="flex-1" />
 
-        <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-          <CalendarDays className="h-4 w-4 text-secondary" aria-hidden="true" />
-          {pkg.price || "Price on request"}
-        </p>
+        {pkg.price && (
+          <p className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
+            <CalendarDays className="h-4 w-4 text-secondary" aria-hidden="true" />
+            {pkg.price}
+          </p>
+        )}
 
         <div className="mt-4 flex flex-wrap gap-2">
           <ButtonLink to="/packages/$slug" params={{ slug: pkg.slug }} variant="primary" size="sm">
@@ -59,11 +61,11 @@ export function PackageCard({ pkg }: { pkg: TourPackage }) {
           </ButtonLink>
           {wa ? (
             <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="outline" size="sm">
-              <MessageCircle className="h-4 w-4" aria-hidden="true" /> WhatsApp
+              <MessageCircle className="h-4 w-4" aria-hidden="true" /> Get a Quote
             </ButtonAnchor>
           ) : (
             <ButtonLink to="/enquiry" search={{ interest: pkg.title }} variant="outline" size="sm">
-              Enquire Now
+              Get a Quote
             </ButtonLink>
           )}
         </div>
