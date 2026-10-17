@@ -9,17 +9,38 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 /**
+ * Photos for the NEW places are looked up by file name in src/assets/. A place whose photo
+ * file is not there yet is simply skipped (nothing breaks), so you can add the photos one by
+ * one. Just save each photo in src/assets/ with the exact file name shown below.
+ */
+const assetUrls = import.meta.glob("../../assets/*.{jpg,jpeg,png,webp}", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
+const photo = (file: string): string | undefined => assetUrls[`../../assets/${file}`];
+
+/**
  * EDIT HERE: the big background photos and the round thumbnails on the right.
  * Click a thumbnail (or a dot) to switch the background. Add, remove or reorder
- * entries freely; 4 to 6 looks best.
+ * entries freely. On larger screens the thumbnail column shows 5 at a time, with the
+ * selected one in the middle, so a longer list still fits on the screen.
  */
-const slides = [
-  { image: murudeshwar, name: "Murudeshwar", place: "Coastal Karnataka" },
+const allSlides = [
+  { image: photo("udupi.jpg"), name: "Udupi", place: "Temple Town" },
+  { image: photo("kollur.jpg"), name: "Kollur", place: "Mookambika Temple" },
+  { image: murudeshwar, name: "Murudeshwara", place: "Coastal Karnataka" },
+  { image: gokarna, name: "Gokarna", place: "Beaches & Temples" },
+  { image: photo("hampi.jpg"), name: "Hampi", place: "Ancient Ruins" },
+  { image: photo("jog-falls.jpg"), name: "Jog Falls", place: "Sharavathi Waterfalls" },
+  { image: photo("bandipur.jpg"), name: "Bandipur Tiger Safari", place: "Wildlife Reserve" },
   { image: mysore, name: "Mysore", place: "Heritage City" },
   { image: coorg, name: "Coorg", place: "Misty Hills" },
-  { image: gokarna, name: "Gokarna", place: "Beaches & Temples" },
   { image: chikkamagaluru, name: "Chikkamagaluru", place: "Coffee Country" },
 ];
+
+// Keep only the places that have a photo.
+const slides = allSlides.flatMap((s) => (s.image ? [{ ...s, image: s.image }] : []));
 
 /** Seconds the background stays before moving on by itself. */
 const AUTOPLAY_MS = 6000;
@@ -103,8 +124,14 @@ export function CinematicHero() {
           className="mt-8 flex items-end gap-3 sm:gap-4 overflow-x-auto pb-2 pt-1 no-scrollbar md:overflow-visible md:pb-0 md:pt-0 md:absolute md:right-16 md:top-1/2 md:mt-0 md:-translate-y-1/2 md:flex-col md:items-end md:gap-4"
         >
           {slides.map((slide, index) => {
-            const active = index === current;
-            const distance = Math.abs(index - current);
+            // How many steps this place is from the selected one (negative = before it, wraps around).
+            const count = slides.length;
+            let offset = (index - current) % count;
+            if (offset > count / 2) offset -= count;
+            else if (offset < -count / 2) offset += count;
+            const active = offset === 0;
+            const distance = Math.abs(offset);
+            const inWindow = distance <= 2; // larger screens show the selected place plus 2 either side
             return (
               <button
                 key={slide.name}
@@ -113,8 +140,11 @@ export function CinematicHero() {
                 aria-label={`Show ${slide.name}, ${slide.place}`}
                 aria-pressed={active}
                 // Each circle shifts left the further it is from the active one, which forms the curve.
-                style={{ "--arc-x": `${-distance * 22}px` } as CSSProperties}
-                className="group shrink-0 flex flex-col items-center gap-1.5 transition-transform duration-500 md:flex-row md:gap-3 md:[transform:translateX(var(--arc-x))]"
+                style={{ "--arc-x": `${-distance * 22}px`, "--order": offset + 2 } as CSSProperties}
+                className={cn(
+                  "group shrink-0 flex flex-col items-center gap-1.5 transition-transform duration-500 md:flex-row md:gap-3 md:[transform:translateX(var(--arc-x))] md:[order:var(--order)]",
+                  !inWindow && "md:hidden",
+                )}
               >
                 {/* Desktop label: shown to the left */}
                 <span className="hidden text-right md:block">
