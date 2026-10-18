@@ -116,8 +116,8 @@ export function CinematicHero() {
         )}
       >
         <MapPin className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-        <span className="truncate">{slides[current].name}</span>
-        <span className="hidden truncate font-normal text-white/75 sm:inline">· {slides[current].place}</span>
+        <span className="truncate">{slides[current]?.name}</span>
+        <span className="hidden truncate font-normal text-white/75 sm:inline">· {slides[current]?.place}</span>
       </p>
 
       <h1

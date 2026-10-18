@@ -50,7 +50,7 @@ export const siteConfig: SiteConfig = {
   logoUrl: "",
   phone: "+91 6362720199",
   phoneDisplay: "+91 6362720199",
-  whatsappNumber: "918861173259",
+  whatsappNumber: "916362720199",
   email: "",
   address: "",
   businessHours: "",
