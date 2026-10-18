@@ -116,8 +116,8 @@ export function CinematicHero() {
         )}
       >
         <MapPin className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-        <span className="truncate">{slides[current]?.name}</span>
-        <span className="hidden truncate font-normal text-white/75 sm:inline">· {slides[current]?.place}</span>
+        <span className="truncate">{slides[current].name}</span>
+        <span className="hidden truncate font-normal text-white/75 sm:inline">· {slides[current].place}</span>
       </p>
 
       <h1
@@ -156,10 +156,18 @@ export function CinematicHero() {
       onMouseLeave={() => setPaused(false)}
       className={
         phone
-          ? "mr-16 mt-8 flex items-end gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar sm:gap-4"
+          ? "hero-row-scroll mr-16 mt-7 flex items-end gap-3 overflow-x-auto pt-1 sm:gap-4"
           : "flex flex-col items-end gap-4"
       }
-      style={phone ? undefined : { position: "absolute", right: "4rem", top: "50%", transform: "translateY(-50%)" }}
+      style={
+        phone
+          ? {
+              // Soft fade on the right edge so the row looks like it continues, instead of a hard cut.
+              WebkitMaskImage: "linear-gradient(to right, black 82%, transparent)",
+              maskImage: "linear-gradient(to right, black 82%, transparent)",
+            }
+          : { position: "absolute", right: "4rem", top: "50%", transform: "translateY(-50%)" }
+      }
     >
       {slides.map((slide, index) => {
         // How many steps this place is from the selected one (negative = before it, wraps around).
@@ -332,7 +340,10 @@ export function CinematicHero() {
         {/* Dark layer so the text is easy to read on any photo */}
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
 
-        <div className="w-full px-6 pb-10 pt-28 sm:px-10">
+        {/* Hides the thin scrollbar line under the phone circles row */}
+        <style>{`.hero-row-scroll{scrollbar-width:none;-ms-overflow-style:none}.hero-row-scroll::-webkit-scrollbar{display:none}`}</style>
+
+        <div className="w-full px-6 pb-6 pt-28 sm:px-10">
           {renderCopy(true)}
           {renderThumbs(true)}
         </div>
