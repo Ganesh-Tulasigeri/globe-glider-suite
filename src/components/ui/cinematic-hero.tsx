@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from "react";
+import { MapPin } from "lucide-react";
 import murudeshwar from "@/assets/murudeshwara.jpg";
 import mysore from "@/assets/mysore-tour.jpg";
 import coorg from "@/assets/coorg-tour.jpg";
@@ -95,6 +96,16 @@ export function CinematicHero() {
       {/* Text, bottom left */}
       <div className="w-full px-6 sm:px-10 md:px-14 lg:px-16 pb-10 pt-24 md:pb-16">
         <div className="max-w-lg md:max-w-md lg:max-w-xl">
+          {/* Names the place shown in the background photo right now */}
+          <p
+            key={current}
+            className="mb-4 inline-flex max-w-full animate-in fade-in items-center gap-2 rounded-full border border-white/30 bg-black/35 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm duration-700 md:text-base"
+          >
+            <MapPin className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+            <span className="truncate">{slides[current].name}</span>
+            <span className="hidden truncate font-normal text-white/75 sm:inline">· {slides[current].place}</span>
+          </p>
+
           <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-5xl">
             Travel made simple, from the first call to the last mile
           </h1>
@@ -148,8 +159,17 @@ export function CinematicHero() {
               >
                 {/* Desktop label: shown to the left */}
                 <span className="hidden text-right md:block">
-                  <span className="block text-sm font-semibold leading-tight drop-shadow">{slide.name}</span>
-                  <span className="block text-xs text-white/80 drop-shadow">{slide.place}</span>
+                  <span
+                    className={cn(
+                      "block font-semibold leading-tight drop-shadow",
+                      active ? "text-xl font-bold" : "text-sm",
+                    )}
+                  >
+                    {slide.name}
+                  </span>
+                  <span className={cn("block drop-shadow", active ? "text-sm text-white" : "text-xs text-white/80")}>
+                    {slide.place}
+                  </span>
                 </span>
 
                 {/* Round thumbnail image */}
@@ -162,7 +182,7 @@ export function CinematicHero() {
                   className={cn(
                     "rounded-full object-cover transition-all duration-500",
                     active
-                      ? "h-14 w-14 ring-4 ring-white/80 md:h-28 md:w-28"
+                      ? "h-16 w-16 ring-4 ring-white md:h-36 md:w-36"
                       : "h-11 w-11 opacity-80 ring-2 ring-white/40 group-hover:opacity-100 md:h-20 md:w-20",
                   )}
                 />
@@ -171,8 +191,8 @@ export function CinematicHero() {
                 <div className="flex flex-col items-center text-center md:hidden max-w-[4.8rem]">
                   <span
                     className={cn(
-                      "text-[11px] font-bold leading-tight drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] truncate w-full transition-colors",
-                      active ? "text-white" : "text-white/80"
+                      "font-bold leading-tight drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] truncate w-full transition-colors",
+                      active ? "text-xs text-white" : "text-[11px] text-white/80"
                     )}
                   >
                     {slide.name}
