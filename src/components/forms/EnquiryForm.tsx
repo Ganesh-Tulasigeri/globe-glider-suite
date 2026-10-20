@@ -8,11 +8,37 @@ import { vehicles } from "@/data/vehicles";
 import { hasWhatsApp, isValidPhone, whatsappLink } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
+/**
+ * EDIT HERE: extra places that customers can pick (in addition to the destinations of your
+ * tour packages, which are added automatically). The list is shown in alphabetical order.
+ */
+const EXTRA_PLACES = ["Hampi", "Jog Falls", "Bandipur Tiger Safari", "Mysore", "Coorg", "Chikkamagaluru"];
+
+/** Every selectable place, without duplicates. */
+const places = Array.from(
+  new Map(
+    [...packages.map((p) => p.destination), ...EXTRA_PLACES]
+      .filter(Boolean)
+      .map((name) => [name.trim().toLowerCase(), name.trim()] as const),
+  ).values(),
+).sort((a, b) => a.localeCompare(b));
+
+/** Special choices. Picking "other" reveals a box where the customer types their own answer. */
+const OTHER = "__other__";
+const SUGGEST = "__suggest__";
+
 interface FormState {
   name: string;
   phone: string;
   email: string;
-  interest: string;
+  /** What do you need? (a service) */
+  service: string;
+  serviceOther: string;
+  /** Where do you want to go? */
+  place: string;
+  placeOther: string;
+  /** Preferred vehicle */
+  vehicle: string;
   travelDate: string;
   people: string;
   message: string;
@@ -22,11 +48,39 @@ const emptyForm: FormState = {
   name: "",
   phone: "",
   email: "",
-  interest: "",
+  service: "",
+  serviceOther: "",
+  place: "",
+  placeOther: "",
+  vehicle: "",
   travelDate: "",
   people: "",
   message: "",
 };
+
+/**
+ * The "Get a Quote" buttons send one name in the web address (a service, a package or a vehicle).
+ * This puts it into the right box: a vehicle fills "Vehicle", a package fills "Place" (and the
+ * tour-package service), a service fills "What do you need?".
+ */
+function initialState(interest: string): FormState {
+  const base = { ...emptyForm };
+  if (!interest) return base;
+
+  const service = services.find((s) => s.title === interest);
+  if (service) return { ...base, service: service.title };
+
+  const pkg = packages.find((p) => p.title === interest);
+  if (pkg) {
+    const tourService = services.find((s) => /tour package/i.test(s.title));
+    return { ...base, service: tourService?.title ?? "", place: pkg.destination };
+  }
+
+  const vehicle = vehicles.find((v) => v.name === interest);
+  if (vehicle) return { ...base, vehicle: vehicle.name };
+
+  return { ...base, service: OTHER, serviceOther: interest };
+}
 
 type Errors = Partial<Record<keyof FormState, string>>;
 type Status = "idle" | "submitting" | "success" | "error";
@@ -46,7 +100,7 @@ const fieldClass =
  * of showing a fake success message.
  */
 export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string }) {
-  const [form, setForm] = useState<FormState>({ ...emptyForm, interest: defaultInterest });
+  const [form, setForm] = useState<FormState>(() => initialState(defaultInterest));
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
   const [errorText, setErrorText] = useState("");
@@ -63,9 +117,17 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
     else if (!isValidPhone(form.phone)) next.phone = "Please enter a valid 10-digit phone number.";
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       next.email = "Enter a valid email address.";
+    if (form.service === OTHER && form.serviceOther.trim().length < 3)
+      next.serviceOther = "Please tell us what you need.";
+    if (form.place === OTHER && form.placeOther.trim().length < 2)
+      next.placeOther = "Please tell us where you want to go.";
     if (form.people && Number(form.people) <= 0) next.people = "Enter a number greater than zero.";
     return next;
   };
+
+  const serviceText = form.service === OTHER ? `Other - ${form.serviceOther.trim()}` : form.service;
+  const placeText = form.place === OTHER ? `Other - ${form.placeOther.trim()}` : form.place;
+  const vehicleText = form.vehicle === SUGGEST ? "Not sure, please suggest one" : form.vehicle;
 
   const buildMessage = () =>
     [
@@ -73,7 +135,9 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
       `Name: ${form.name.trim()}`,
       `Phone: ${form.phone.trim()}`,
       form.email && `Email: ${form.email.trim()}`,
-      form.interest && `Interested in: ${form.interest}`,
+      serviceText && `Need: ${serviceText}`,
+      placeText && `Place: ${placeText}`,
+      vehicleText && `Vehicle: ${vehicleText}`,
       form.travelDate && `Travel date: ${form.travelDate}`,
       form.people && `People: ${form.people}`,
       form.message && `Message: ${form.message.trim()}`,
@@ -100,7 +164,18 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
         const response = await fetch(siteConfig.formEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ ...form, source: siteConfig.name }),
+          body: JSON.stringify({
+            name: form.name.trim(),
+            phone: form.phone.trim(),
+            email: form.email.trim(),
+            need: serviceText,
+            place: placeText,
+            vehicle: vehicleText,
+            travelDate: form.travelDate,
+            people: form.people,
+            message: form.message.trim(),
+            source: siteConfig.name,
+          }),
         });
         if (!response.ok) {
           throw new Error(`The enquiry service responded with status ${response.status}.`);
@@ -117,7 +192,7 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
       }
 
       setStatus("success");
-      setForm({ ...emptyForm, interest: defaultInterest });
+      setForm(initialState(defaultInterest));
     } catch (error) {
       setStatus("error");
       setErrorText(error instanceof Error ? error.message : "Something went wrong. Please try again.");
@@ -146,7 +221,10 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
   return (
     <form onSubmit={handleSubmit} noValidate className="rounded-xl border border-border bg-card p-5 shadow-card md:p-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-1">
+        {/* ------------------------------ Your details ------------------------------ */}
+        <h3 className="text-base text-primary sm:col-span-2">Your details</h3>
+
+        <div>
           <label htmlFor="enq-name" className="text-sm font-medium text-foreground">
             Your name <span className="text-destructive">*</span>
           </label>
@@ -194,7 +272,7 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
           )}
         </div>
 
-        <div>
+        <div className="sm:col-span-2">
           <label htmlFor="enq-email" className="text-sm font-medium text-foreground">
             Email <span className="text-muted-foreground">(optional)</span>
           </label>
@@ -217,45 +295,120 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
           )}
         </div>
 
+        {/* -------------------------------- Your trip -------------------------------- */}
+        <h3 className="mt-2 border-t border-border pt-5 text-base text-primary sm:col-span-2">Your trip</h3>
+
         <div>
-          <label htmlFor="enq-interest" className="text-sm font-medium text-foreground">
-            Interested in <span className="text-muted-foreground">(optional)</span>
+          <label htmlFor="enq-service" className="text-sm font-medium text-foreground">
+            What do you need? <span className="text-muted-foreground">(optional)</span>
           </label>
           <select
-            id="enq-interest"
-            name="interest"
-            value={form.interest}
-            onChange={(e) => update("interest", e.target.value)}
+            id="enq-service"
+            name="service"
+            value={form.service}
+            onChange={(e) => update("service", e.target.value)}
             className={fieldClass}
           >
-            <option value="">Select an option</option>
-            <optgroup label="Services">
-              {services.map((s) => (
-                <option key={s.slug} value={s.title}>
-                  {s.title}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Tour packages">
-              {packages.map((p) => (
-                <option key={p.slug} value={p.title}>
-                  {p.title}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Vehicles">
-              {vehicles.map((v) => (
-                <option key={v.id} value={v.name}>
-                  {v.name}
-                </option>
-              ))}
-            </optgroup>
-            {defaultInterest &&
-              !services.some((s) => s.title === defaultInterest) &&
-              !packages.some((p) => p.title === defaultInterest) &&
-              !vehicles.some((v) => v.name === defaultInterest) && (
-                <option value={defaultInterest}>{defaultInterest}</option>
-              )}
+            <option value="">Select a service</option>
+            {services.map((s) => (
+              <option key={s.slug} value={s.title}>
+                {s.title}
+              </option>
+            ))}
+            <option value={OTHER}>Other (not in this list)</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="enq-place" className="text-sm font-medium text-foreground">
+            Where do you want to go? <span className="text-muted-foreground">(optional)</span>
+          </label>
+          <select
+            id="enq-place"
+            name="place"
+            value={form.place}
+            onChange={(e) => update("place", e.target.value)}
+            className={fieldClass}
+          >
+            <option value="">Select a place</option>
+            {places.map((place) => (
+              <option key={place} value={place}>
+                {place}
+              </option>
+            ))}
+            <option value={OTHER}>Other place (not in this list)</option>
+          </select>
+        </div>
+
+        {/* Shown only when "Other" is chosen for the service */}
+        {form.service === OTHER && (
+          <div className="sm:col-span-2">
+            <label htmlFor="enq-service-other" className="text-sm font-medium text-foreground">
+              Tell us what you need <span className="text-destructive">*</span>
+            </label>
+            <textarea
+              id="enq-service-other"
+              name="serviceOther"
+              rows={3}
+              autoFocus
+              value={form.serviceOther}
+              onChange={(e) => update("serviceOther", e.target.value)}
+              aria-invalid={!!errors.serviceOther}
+              aria-describedby={errors.serviceOther ? "enq-service-other-error" : undefined}
+              className={cn(fieldClass, errors.serviceOther && "border-destructive")}
+              placeholder="e.g. A car for a wedding, or a daily office pickup."
+            />
+            {errors.serviceOther && (
+              <p id="enq-service-other-error" className="mt-1 text-xs text-destructive">
+                {errors.serviceOther}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Shown only when "Other place" is chosen */}
+        {form.place === OTHER && (
+          <div className="sm:col-span-2">
+            <label htmlFor="enq-place-other" className="text-sm font-medium text-foreground">
+              Which place? <span className="text-destructive">*</span>
+            </label>
+            <input
+              id="enq-place-other"
+              name="placeOther"
+              autoFocus
+              value={form.placeOther}
+              onChange={(e) => update("placeOther", e.target.value)}
+              aria-invalid={!!errors.placeOther}
+              aria-describedby={errors.placeOther ? "enq-place-other-error" : undefined}
+              className={cn(fieldClass, errors.placeOther && "border-destructive")}
+              placeholder="Type the place or route, e.g. Badami and Pattadakal"
+            />
+            {errors.placeOther && (
+              <p id="enq-place-other-error" className="mt-1 text-xs text-destructive">
+                {errors.placeOther}
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="sm:col-span-2">
+          <label htmlFor="enq-vehicle" className="text-sm font-medium text-foreground">
+            Preferred vehicle <span className="text-muted-foreground">(optional)</span>
+          </label>
+          <select
+            id="enq-vehicle"
+            name="vehicle"
+            value={form.vehicle}
+            onChange={(e) => update("vehicle", e.target.value)}
+            className={fieldClass}
+          >
+            <option value="">Select a vehicle</option>
+            <option value={SUGGEST}>Not sure, please suggest one</option>
+            {vehicles.map((v) => (
+              <option key={v.id} value={v.name}>
+                {v.name} ({v.seats} seats)
+              </option>
+            ))}
           </select>
         </div>
 
@@ -293,7 +446,7 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
 
         <div className="sm:col-span-2">
           <label htmlFor="enq-message" className="text-sm font-medium text-foreground">
-            Your message <span className="text-muted-foreground">(optional)</span>
+            Anything else we should know? <span className="text-muted-foreground">(optional)</span>
           </label>
           <textarea
             id="enq-message"
@@ -302,7 +455,7 @@ export function EnquiryForm({ defaultInterest = "" }: { defaultInterest?: string
             value={form.message}
             onChange={(e) => update("message", e.target.value)}
             className={fieldClass}
-            placeholder="Tell us your route, dates or anything else we should know."
+            placeholder="Pickup place, number of days, special requests…"
           />
         </div>
       </div>

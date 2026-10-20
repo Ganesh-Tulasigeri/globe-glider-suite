@@ -5,6 +5,7 @@ import { ButtonAnchor, ButtonLink } from "@/components/common/Button";
 import { CTASection } from "@/components/common/CTASection";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { getPackage } from "@/data/packages";
+import { placeDetails } from "@/data/placeDetails";
 import { siteConfig } from "@/config/site";
 import { interestMessage, whatsappLink } from "@/lib/contact";
 
@@ -54,6 +55,7 @@ function PackageNotFound() {
 function PackageDetail() {
   const { pkg } = Route.useLoaderData();
   const wa = whatsappLink(interestMessage(`${pkg.title} (${pkg.destination})`));
+  const details = placeDetails[pkg.slug] ?? [];
 
   return (
     <>
@@ -82,7 +84,15 @@ function PackageDetail() {
         <div className="container-page grid gap-12 lg:grid-cols-[1.3fr_1fr]">
           <div>
             <h2 className="text-2xl text-primary">Overview</h2>
-            <p className="mt-3 text-base leading-relaxed text-muted-foreground">{pkg.summary}</p>
+            {details.length > 0 ? (
+              details.map((paragraph) => (
+                <p key={paragraph} className="mt-3 text-base leading-relaxed text-muted-foreground">
+                  {paragraph}
+                </p>
+              ))
+            ) : (
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">{pkg.summary}</p>
+            )}
 
             <h3 className="mt-8 text-xl text-primary">Destinations covered</h3>
             <ul className="mt-3 flex flex-wrap gap-2">
@@ -177,7 +187,7 @@ function PackageDetail() {
               )}
               <div className="mt-4 flex flex-col gap-2">
                 <ButtonLink to="/enquiry" search={{ interest: pkg.title }} variant="accent" size="lg">
-                  Book Now
+                  Get a Free Quote
                 </ButtonLink>
                 {wa && (
                   <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="outline" size="lg">
