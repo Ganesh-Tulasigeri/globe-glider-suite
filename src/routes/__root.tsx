@@ -13,7 +13,6 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { FloatingActions } from "@/components/layout/FloatingActions";
 import { siteConfig } from "@/config/site";
 
 function NotFoundComponent() {
@@ -155,7 +154,6 @@ function RootComponent() {
         <Outlet />
       </main>
       <Footer />
-      <FloatingActions />
     </QueryClientProvider>
   );
 }

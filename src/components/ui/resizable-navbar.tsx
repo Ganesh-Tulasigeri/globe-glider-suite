@@ -41,7 +41,7 @@ export function Navbar({ children, className }: { children: React.ReactNode; cla
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className={cn(
         "fixed inset-x-0 mx-auto w-full z-50 transition-all duration-300",
-        isAtTop ? "top-0 max-w-full px-0" : "top-4 max-w-5xl px-4",
+        isAtTop ? "top-0 max-w-full px-0" : "top-4 max-w-6xl px-4",
         className
       )}
     >
@@ -61,9 +61,9 @@ export function Navbar({ children, className }: { children: React.ReactNode; cla
   );
 }
 
-export function NavBody({ children }: { children: React.ReactNode }) {
+export function NavBody({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className="hidden md:flex items-center justify-between px-6 py-2 w-full">
+    <div className={cn("hidden md:flex items-center justify-between gap-6 lg:gap-10 px-6 lg:px-8 py-2.5 w-full", className)}>
       {children}
     </div>
   );
@@ -85,7 +85,7 @@ export function NavbarLogo() {
   const logoSrc = isDark ? logoDark : logoLight;
 
   return (
-    <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 relative z-20" aria-label={`${siteConfig.name} home`}>
+    <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 mr-6 lg:mr-10 relative z-20" aria-label={`${siteConfig.name} home`}>
       <img src={logoSrc} alt="Logo" className="h-11 w-auto sm:h-12 md:h-14 transition-all duration-300" width={56} height={56} />
       <span
         className={cn(
