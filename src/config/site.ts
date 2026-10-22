@@ -27,6 +27,8 @@ export interface SiteConfig {
   whatsappNumber: string;
   email: string;
   address: string;
+  /** What Google Maps should search for. Shorter and cleaner than the address works best, e.g. "Area, City, State PIN". Blank = the address is used. */
+  mapQuery: string;
   /** e.g. "Mon - Sun, 7:00 AM - 10:00 PM". Blank = hidden. */
   businessHours: string;
   /** Full Google Maps *embed* URL (iframe src). Blank = notice shown. */
@@ -46,13 +48,14 @@ export const siteConfig: SiteConfig = {
   name: "Lifetime Travels",
   tagline: "Comfortable journeys, planned around you",
   description:
-    "A travel and tourism service offering cabs and vehicles with experienced drivers, airport transfers, sightseeing trips and custom tour packages.",
+    "A travel and tourism service offering chauffeur-driven vehicles, airport transfers, sightseeing trips and custom tour packages.",
   logoUrl: "",
   phone: "+91 6362720199",
   phoneDisplay: "+91 6362720199",
-  whatsappNumber: "916362720199",
+  whatsappNumber: "918861173259",
   email: "",
-  address: "",
+  address: "Alexander D’souza, Shop No. 5-26/1(5), Yeyyadi Post, Kochady, Mangaluru, Karnataka - 575008",
+  mapQuery: "Yeyyadi, Kochady, Mangaluru, Karnataka 575008",
   businessHours: "",
   mapEmbedUrl: "",
   formEndpoint: "",

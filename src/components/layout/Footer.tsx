@@ -78,7 +78,14 @@ export function Footer() {
             {siteConfig.address && (
               <li className="flex gap-2">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{siteConfig.address}</span>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.mapQuery || siteConfig.address)}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="hover:text-primary-foreground"
+                >
+                  {siteConfig.address}
+                </a>
               </li>
             )}
             {hasPhone() && tel && (

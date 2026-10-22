@@ -15,7 +15,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Get in touch to plan a trip, book a vehicle with driver or ask about a tour package. Call, WhatsApp or send an enquiry.",
+          "Get in touch to plan a trip, book a chauffeur-driven vehicle or ask about a tour package. Call, WhatsApp or send an enquiry.",
       },
       { property: "og:title", content: `Contact — ${siteConfig.name}` },
       {
@@ -34,6 +34,14 @@ function ContactPage() {
   const tel = telLink();
   const mail = mailtoLink(`Enquiry — ${siteConfig.name}`);
   const noDetails = !hasPhone() && !hasEmail() && !wa && !siteConfig.address;
+
+  // Map: uses the full embed link from site.ts if there is one; otherwise it is built from the address.
+  const mapSearch = siteConfig.mapQuery || siteConfig.address;
+  const addressQuery = mapSearch ? encodeURIComponent(mapSearch) : "";
+  const mapSrc =
+    siteConfig.mapEmbedUrl ||
+    (addressQuery ? `https://maps.google.com/maps?q=${addressQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed` : "");
+  const directionsHref = addressQuery ? `https://www.google.com/maps/search/?api=1&query=${addressQuery}` : "";
 
   return (
     <>
@@ -143,6 +151,33 @@ function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* Map: appears once an address (or map link) is added in src/config/site.ts */}
+      {mapSrc && (
+        <section className="section bg-surface">
+          <div className="container-page">
+            <SectionHeading title="Find us" description={siteConfig.address || undefined} />
+            <div className="mt-8 overflow-hidden rounded-2xl border border-border shadow-card">
+              <iframe
+                title={`Map showing the location of ${siteConfig.name}`}
+                src={mapSrc}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                className="block w-full"
+                style={{ border: 0, height: "24rem" }}
+              />
+            </div>
+            {directionsHref && (
+              <div className="mt-6">
+                <ButtonAnchor href={directionsHref} target="_blank" rel="noreferrer noopener" variant="outline">
+                  <MapPin className="h-4 w-4" aria-hidden="true" /> Get directions
+                </ButtonAnchor>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
     </>
   );
 }
