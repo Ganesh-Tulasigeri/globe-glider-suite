@@ -194,10 +194,10 @@
 
 /* Vertical rhythm for page sections. */
 @utility section {
-  padding-block: 3.5rem;
+  padding-block: 4rem;
 
   @media (min-width: 768px) {
-    padding-block: 5.5rem;
+    padding-block: 6rem;
   }
 }
 

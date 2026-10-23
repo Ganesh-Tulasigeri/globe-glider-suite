@@ -25,7 +25,7 @@ export function PageHero({ title, description, image, crumbs, children }: Props)
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/95 via-primary/75 to-primary/40" />
         </>
       )}
-      <div className="container-page py-12 md:py-16">
+      <div className="container-page pt-20 pb-12 sm:pt-24 md:pt-20 md:pb-16">
         {crumbs && (
           <div className="mb-4">
             <Breadcrumbs items={crumbs} />

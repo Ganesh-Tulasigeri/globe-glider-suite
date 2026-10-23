@@ -21,7 +21,7 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "max-w-2xl",
+        "max-w-2xl mb-6 md:mb-8",
         align === "center" && "mx-auto text-center",
         className,
       )}

@@ -53,7 +53,7 @@ export const siteConfig: SiteConfig = {
   phone: "+91 6362720199",
   phoneDisplay: "+91 6362720199",
   whatsappNumber: "918861173259",
-  email: "",
+  email: "lifetimetravels@gmail.com",
   address: "Alexander D’souza, Shop No. 5-26/1(5), Yeyyadi Post, Kochady, Mangaluru, Karnataka - 575008",
   mapQuery: "Yeyyadi, Kochady, Mangaluru, Karnataka 575008",
   businessHours: "",

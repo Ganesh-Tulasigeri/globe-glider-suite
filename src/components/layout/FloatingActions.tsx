@@ -1,7 +1,7 @@
 import { Phone } from "lucide-react";
 import { telLink, whatsappLink } from "@/lib/contact";
 
-/** The official WhatsApp logo (speech bubble with a phone handset). Draws in the colour of its parent. */
+/** The official WhatsApp logo (speech bubble with a phone handset). */
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true" focusable="false">
@@ -10,34 +10,41 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-/** Floating WhatsApp / call buttons. Each is hidden when not configured. */
+/**
+ * Floating WhatsApp / call buttons pinned to the bottom-right corner.
+ * On mobile: shows a pill button with icon + label for clarity.
+ * On desktop: icon-only circle to stay unobtrusive.
+ */
 export function FloatingActions() {
   const wa = whatsappLink();
   const tel = telLink();
   if (!wa && !tel) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-3 print:hidden">
+    <div className="fixed bottom-5 right-4 z-40 flex flex-col items-end gap-3 print:hidden">
       {wa && (
         <a
           href={wa}
           target="_blank"
           rel="noreferrer noopener"
           aria-label="Chat with us on WhatsApp"
-          // WhatsApp's own green, set directly so it always matches the real brand colour.
           style={{ backgroundColor: "#25D366", color: "#ffffff" }}
-          className="inline-flex items-center justify-center rounded-full p-3.5 shadow-lift transition-transform hover:scale-105"
+          className="inline-flex items-center gap-2 rounded-full px-4 py-3 shadow-lift transition-transform hover:scale-105 active:scale-95 sm:p-3.5"
         >
-          <WhatsAppIcon className="h-7 w-7" />
+          <WhatsAppIcon className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+          {/* Label visible only on small screens where tap accuracy matters */}
+          <span className="text-sm font-semibold sm:hidden">WhatsApp</span>
         </a>
       )}
       {tel && (
         <a
           href={tel}
           aria-label="Call us"
-          className="inline-flex items-center justify-center rounded-full bg-primary p-3.5 text-primary-foreground shadow-lift transition-transform hover:scale-105"
+          className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-primary-foreground shadow-lift transition-transform hover:scale-105 active:scale-95 sm:p-3.5"
         >
-          <Phone className="h-6 w-6" aria-hidden="true" />
+          <Phone className="h-6 w-6 shrink-0" aria-hidden="true" />
+          {/* Label visible only on small screens */}
+          <span className="text-sm font-semibold sm:hidden">Call now</span>
         </a>
       )}
     </div>

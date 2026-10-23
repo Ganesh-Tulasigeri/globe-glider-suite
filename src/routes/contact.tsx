@@ -3,7 +3,6 @@ import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import destHeritage from "@/assets/dest-heritage.jpg";
 import { PageHero } from "@/components/common/PageHero";
 import { SectionHeading } from "@/components/common/SectionHeading";
-import { ButtonAnchor } from "@/components/common/Button";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { siteConfig } from "@/config/site";
 import { hasEmail, hasPhone, mailtoLink, telLink, whatsappLink } from "@/lib/contact";
@@ -15,7 +14,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Get in touch to plan a trip, book a chauffeur-driven vehicle or ask about a tour package. Call, WhatsApp or send an enquiry.",
+          "Get in touch to plan a trip, book a vehicle with driver or ask about a tour package. Call, WhatsApp or send an enquiry.",
       },
       { property: "og:title", content: `Contact — ${siteConfig.name}` },
       {
@@ -34,14 +33,6 @@ function ContactPage() {
   const tel = telLink();
   const mail = mailtoLink(`Enquiry — ${siteConfig.name}`);
   const noDetails = !hasPhone() && !hasEmail() && !wa && !siteConfig.address;
-
-  // Map: uses the full embed link from site.ts if there is one; otherwise it is built from the address.
-  const mapSearch = siteConfig.mapQuery || siteConfig.address;
-  const addressQuery = mapSearch ? encodeURIComponent(mapSearch) : "";
-  const mapSrc =
-    siteConfig.mapEmbedUrl ||
-    (addressQuery ? `https://maps.google.com/maps?q=${addressQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed` : "");
-  const directionsHref = addressQuery ? `https://www.google.com/maps/search/?api=1&query=${addressQuery}` : "";
 
   return (
     <>
@@ -66,77 +57,78 @@ function ContactPage() {
                 office address in <code>src/config/site.ts</code> and they will appear here and across the site.
               </p>
             ) : (
-              <ul className="space-y-5 text-sm">
-                {hasPhone() && tel && (
-                  <li className="flex gap-3">
-                    <Phone className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
-                    <div>
-                      <p className="font-semibold text-foreground">Phone</p>
-                      <a href={tel} className="text-muted-foreground underline-offset-4 hover:underline">
-                        {siteConfig.phoneDisplay || siteConfig.phone}
-                      </a>
-                    </div>
-                  </li>
-                )}
+              <div className="flex flex-col gap-4">
+                {/* Primary tap-to-contact buttons — large, easy to tap on phone */}
                 {wa && (
-                  <li className="flex gap-3">
-                    <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
-                    <div>
+                  <a
+                    href={wa}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="flex items-center gap-4 rounded-2xl border-2 border-[#25D366] bg-[#25D366]/5 px-5 py-4 transition-colors hover:bg-[#25D366]/10 active:scale-[0.98]"
+                  >
+                    <span
+                      className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
+                      style={{ backgroundColor: "#25D366", color: "#fff" }}
+                    >
+                      <MessageCircle className="h-6 w-6" aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0">
                       <p className="font-semibold text-foreground">WhatsApp</p>
-                      <a
-                        href={wa}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="text-muted-foreground underline-offset-4 hover:underline"
-                      >
-                        Start a chat
-                      </a>
+                      <p className="text-sm text-muted-foreground">Tap to start a chat — quickest reply</p>
                     </div>
-                  </li>
+                  </a>
                 )}
-                {hasEmail() && mail && (
-                  <li className="flex gap-3">
-                    <Mail className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
-                    <div>
-                      <p className="font-semibold text-foreground">Email</p>
-                      <a href={mail} className="break-all text-muted-foreground underline-offset-4 hover:underline">
-                        {siteConfig.email}
-                      </a>
-                    </div>
-                  </li>
-                )}
-                {siteConfig.address && (
-                  <li className="flex gap-3">
-                    <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
-                    <div>
-                      <p className="font-semibold text-foreground">Address</p>
-                      <p className="text-muted-foreground">{siteConfig.address}</p>
-                    </div>
-                  </li>
-                )}
-                {siteConfig.businessHours && (
-                  <li className="flex gap-3">
-                    <Clock className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
-                    <div>
-                      <p className="font-semibold text-foreground">Hours</p>
-                      <p className="text-muted-foreground">{siteConfig.businessHours}</p>
-                    </div>
-                  </li>
-                )}
-              </ul>
-            )}
 
-            {(wa || tel) && (
-              <div className="mt-8 flex flex-wrap gap-3">
-                {wa && (
-                  <ButtonAnchor href={wa} target="_blank" rel="noreferrer noopener" variant="accent">
-                    <MessageCircle className="h-4 w-4" aria-hidden="true" /> WhatsApp us
-                  </ButtonAnchor>
+                {hasPhone() && tel && (
+                  <a
+                    href={tel}
+                    className="flex items-center gap-4 rounded-2xl border-2 border-primary/20 bg-primary/5 px-5 py-4 transition-colors hover:bg-primary/10 active:scale-[0.98]"
+                  >
+                    <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                      <Phone className="h-6 w-6" aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-foreground">Call us</p>
+                      <p className="text-sm text-muted-foreground">
+                        {siteConfig.phoneDisplay || siteConfig.phone}
+                      </p>
+                    </div>
+                  </a>
                 )}
-                {tel && (
-                  <ButtonAnchor href={tel} variant="outline">
-                    <Phone className="h-4 w-4" aria-hidden="true" /> Call now
-                  </ButtonAnchor>
+
+                {/* Secondary details — email, address, hours */}
+                {(hasEmail() || siteConfig.address || siteConfig.businessHours) && (
+                  <ul className="mt-2 space-y-5 border-t border-border pt-5 text-sm">
+                    {hasEmail() && mail && (
+                      <li className="flex gap-3">
+                        <Mail className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
+                        <div>
+                          <p className="font-semibold text-foreground">Email</p>
+                          <a href={mail} className="break-all text-muted-foreground underline-offset-4 hover:underline">
+                            {siteConfig.email}
+                          </a>
+                        </div>
+                      </li>
+                    )}
+                    {siteConfig.address && (
+                      <li className="flex gap-3">
+                        <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
+                        <div>
+                          <p className="font-semibold text-foreground">Address</p>
+                          <p className="text-muted-foreground">{siteConfig.address}</p>
+                        </div>
+                      </li>
+                    )}
+                    {siteConfig.businessHours && (
+                      <li className="flex gap-3">
+                        <Clock className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden="true" />
+                        <div>
+                          <p className="font-semibold text-foreground">Hours</p>
+                          <p className="text-muted-foreground">{siteConfig.businessHours}</p>
+                        </div>
+                      </li>
+                    )}
+                  </ul>
                 )}
               </div>
             )}
@@ -151,33 +143,6 @@ function ContactPage() {
           </div>
         </div>
       </section>
-
-      {/* Map: appears once an address (or map link) is added in src/config/site.ts */}
-      {mapSrc && (
-        <section className="section bg-surface">
-          <div className="container-page">
-            <SectionHeading title="Find us" description={siteConfig.address || undefined} />
-            <div className="mt-8 overflow-hidden rounded-2xl border border-border shadow-card">
-              <iframe
-                title={`Map showing the location of ${siteConfig.name}`}
-                src={mapSrc}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-                className="block w-full"
-                style={{ border: 0, height: "24rem" }}
-              />
-            </div>
-            {directionsHref && (
-              <div className="mt-6">
-                <ButtonAnchor href={directionsHref} target="_blank" rel="noreferrer noopener" variant="outline">
-                  <MapPin className="h-4 w-4" aria-hidden="true" /> Get directions
-                </ButtonAnchor>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
     </>
   );
 }
